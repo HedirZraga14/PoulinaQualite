@@ -87,6 +87,5 @@ Interfaces disponibles :
 - Grafana : `http://localhost:3001`
 - MLflow : `http://localhost:5000`
 
-## Documents de référence
 
 
