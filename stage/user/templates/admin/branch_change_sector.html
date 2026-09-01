@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block title %}Changer le secteur{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Sélectionnez le nouveau secteur pour les filiales suivantes :</p>
+    <ul>
+        {% for branch in branches %}
+            <li>{{ branch.code }} - {{ branch.name }} ({{ branch.sector }})</li>
+        {% endfor %}
+    </ul>
+    <fieldset>
+        <legend>Nouveau secteur</legend>
+        <select name="sector_id" required>
+            <option value="">--- Choisir un secteur ---</option>
+            {% for sector in sectors %}
+                <option value="{{ sector.pk }}">{{ sector.name }}</option>
+            {% endfor %}
+        </select>
+    </fieldset>
+    <input type="hidden" name="action" value="change_sector_action" />
+    {% for branch in branches %}
+        <input type="hidden" name="{{ action_checkbox_name }}" value="{{ branch.pk }}" />
+    {% endfor %}
+    <button type="submit">Appliquer</button>
+    <a href="{% url 'admin:user_branch_changelist' %}">Annuler</a>
+</form>
+{% endblock %}

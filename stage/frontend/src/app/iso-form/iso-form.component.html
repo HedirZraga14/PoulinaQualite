@@ -1,0 +1,128 @@
+<div class="iso-container" id="isoApp">
+  <div class="iso-brand-strip">
+    <div class="iso-brand-main">
+      <img src="/logo.png" alt="Logo Poulina Group Holding" class="iso-brand-logo">
+      <div>
+        <div class="iso-brand-company">Poulina Group Holding</div>
+        <div class="iso-brand-subtitle">Grille d'évaluation laboratoire</div>
+      </div>
+    </div>
+    <div class="iso-brand-date">Édité le {{ currentDate }}</div>
+  </div>
+
+  <header class="iso-header">
+    <h1>
+      Grille d'évaluation
+      <small>Checklist contrôle laboratoire</small>
+    </h1>
+    <div class="iso-badge">
+      Audit · {{ currentDate }}
+    </div>
+  </header>
+
+  <div class="iso-summary-bar">
+    <div style="display:flex;flex-wrap:wrap;gap:1.2rem 2rem;">
+      <div class="iso-stat">
+        <span class="iso-label">Score global</span>
+        <span class="iso-value" [class.green]="globalScore >= 16 && filledCount === totalCount" [class.orange]="globalScore >= 10 && globalScore < 16 && filledCount === totalCount" [class.red]="globalScore < 10 && filledCount === totalCount && filledCount > 0">{{ globalScoreDisplay }}</span>
+        <span style="font-size:0.9rem;color:#5a6f84;">/ 20</span>
+      </div>
+      <div class="iso-stat">
+        <span class="iso-label">Total pondéré</span>
+        <span class="iso-value">{{ totalWeighted }}</span>
+      </div>
+      <div class="iso-stat">
+        <span class="iso-label">Max possible</span>
+        <span class="iso-value">{{ maxPossible }}</span>
+      </div>
+      <div class="iso-stat">
+        <span class="iso-label">Critères évalués</span>
+        <span class="iso-value">{{ filledCount }}</span>
+        <span style="font-size:0.9rem;color:#5a6f84;">/ {{ totalCount }}</span>
+      </div>
+    </div>
+    <div class="iso-actions">
+      <button type="button" class="iso-btn iso-btn-reset" (click)="resetAll()">↺ Réinitialiser</button>
+        <button type="button" class="iso-btn iso-btn-print" (click)="print()">Imprimer</button>
+    </div>
+  </div>
+
+  <div class="iso-axes-container">
+    @for (axe of axesData; track axe.id) {
+      <div class="iso-axe-card">
+        <div class="iso-axe-header" (click)="toggleAxe(axe)">
+          <div class="iso-axe-title">
+            <span class="iso-num">{{ axe.id }}</span>
+            {{ axe.title }}
+            <span style="font-weight:400;font-size:0.75rem;color:#7a94ae;margin-left:0.5rem;">
+              ({{ axe.criteria.length }} crit.)
+            </span>
+          </div>
+          <div class="iso-axe-score">
+            <span style="color:#5a6f84;font-weight:400;font-size:0.8rem;">Score</span>
+            <span class="iso-score-badge" [class.high]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) >= 16" [class.medium]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) >= 10 && getAxeScore(axe) < 16" [class.low]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) < 10 && getAxeFilled(axe) > 0">
+              {{ getAxeFilled(axe) === axe.criteria.length ? getAxeScore(axe).toFixed(1) : '—' }}
+            </span>
+            <span style="font-size:0.8rem;color:#8aa0b8;">/ 20</span>
+            <span class="iso-toggle-icon" [class.open]="!axe.collapsed">▾</span>
+          </div>
+        </div>
+        <div class="iso-axe-body" [class.collapsed]="axe.collapsed">
+          <table class="iso-criteria-table">
+            <thead>
+              <tr>
+                <th style="min-width:200px;">Critère</th>
+                <th style="text-align:center;width:90px;">Note / 20</th>
+                <th style="text-align:center;width:50px;">Pond.</th>
+                <th style="text-align:center;width:80px;">Score pond.</th>
+                <th style="min-width:120px;">Observations</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (cri of axe.criteria; track cri.text; let i = $index) {
+                <tr>
+                  <td class="iso-criterion-text">{{ cri.text }}</td>
+                  <td style="text-align:center;white-space:nowrap;">
+                    <input type="number" class="iso-note-input" min="0" max="20" step="0.5" [(ngModel)]="cri.note" placeholder="0-20" (input)="updateNote(axe, i)" />
+                  </td>
+                  <td class="iso-weight-cell">× {{ cri.weight }}</td>
+                  <td class="iso-weighted-score">{{ getCriterionWeighted(cri) }}</td>
+                  <td>
+                    <input type="text" class="iso-obs-input" [(ngModel)]="cri.obs" placeholder="Observations…" />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <div class="iso-axe-footer">
+            <span class="iso-total-label">Total de l'axe</span>
+            <span class="iso-total-value" [class.high]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) >= 16" [class.medium]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) >= 10 && getAxeScore(axe) < 16" [class.low]="getAxeFilled(axe) === axe.criteria.length && getAxeScore(axe) < 10 && getAxeFilled(axe) > 0">
+              {{ getAxeFilled(axe) === axe.criteria.length ? getAxeTotal(axe).toFixed(1) : '—' }}
+            </span>
+            <span class="iso-max-possible">/ {{ axe.criteria.reduce((sum, c) => sum + 20 * c.weight, 0).toFixed(0) }}</span>
+            <span style="margin-left:auto;font-weight:400;color:#5a6f84;font-size:0.8rem;">
+              {{ getAxeFilled(axe) }}/{{ axe.criteria.length }} renseignés
+            </span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="iso-footer">
+    <button type="button" class="iso-btn iso-btn-cancel" (click)="cancel()">Annuler</button>
+    <button type="button" class="iso-btn iso-btn-save" (click)="save()" [disabled]="!hasData">Enregistrer l'audit</button>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;color:#8aa0b8;font-size:0.8rem;border-top:1px solid #e2e9f2;padding-top:1.5rem;">
+    Grille d'évaluation conforme à la norme ISO 17025 · Audit laboratoire
+  </div>
+
+  <div class="iso-signature">
+    <div class="iso-signature-card">
+      <div class="iso-signature-title">Signature</div>
+      <div class="iso-signature-line"></div>
+      <div class="iso-signature-note">Cachet et signature autorisée</div>
+    </div>
+  </div>
+</div>

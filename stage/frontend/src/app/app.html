@@ -1,0 +1,2277 @@
+
+<main class="page-shell">
+  @if (toastMessage) {
+    <div class="app-toast" [class.is-error]="toastType === 'error'" [class.is-info]="toastType === 'info'">
+      {{ toastMessage }}
+    </div>
+  }
+  <div class="theme-toggle-shell">
+    <button
+      type="button"
+      class="theme-toggle-btn"
+      (click)="toggleTheme()"
+      [attr.title]="isDarkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
+      [attr.aria-label]="isDarkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
+    >
+      <span class="theme-toggle-icon" aria-hidden="true">{{ isDarkMode ? '☀' : '🌙' }}</span>
+    </button>
+  </div>
+  @if (isLoadingScope || isEvaluationLoading || userEvaluationListLoading || adminFormSaving || profileSaving || passwordSaving || isAuthSubmitting) {
+    <div class="app-activity-bar" aria-hidden="true">
+      <span></span>
+    </div>
+  }
+  @if (connected) {
+    <div class="chatbot-shell">
+      @if (chatbotOpen) {
+        <section class="chatbot-panel reveal-on-scroll reveal-up is-visible">
+          <header class="chatbot-header">
+            <div>
+              <strong>Assistant qualité</strong>
+              <p>Posez vos questions sur l’application, les evaluations et les donnees de la base.</p>
+            </div>
+            <div class="chatbot-header-actions">
+              <button type="button" class="chatbot-icon-btn" (click)="clearChatbotConversation()" [disabled]="chatbotSending" title="Nouvelle conversation">↺</button>
+              <button type="button" class="chatbot-icon-btn" (click)="toggleChatbot(false)" title="Fermer">×</button>
+            </div>
+          </header>
+
+          <div class="chatbot-messages">
+            @for (message of chatbotMessages; track $index) {
+              <article class="chatbot-message" [class.is-user]="message.role === 'user'" [class.is-assistant]="message.role === 'assistant'">
+                <span class="chatbot-message-role">{{ message.role === 'user' ? 'Vous' : 'Assistant IA' }}</span>
+                <p>{{ message.text }}</p>
+              </article>
+            }
+            @if (chatbotSending) {
+              <article class="chatbot-message is-assistant">
+                <span class="chatbot-message-role">Assistant IA</span>
+                <p>Réflexion en cours...</p>
+              </article>
+            }
+          </div>
+
+          @if (chatbotMessages.length <= 2) {
+            <div class="chatbot-prompts">
+              @for (prompt of chatbotQuickPrompts; track prompt) {
+                <button type="button" class="chatbot-prompt" (click)="useChatbotPrompt(prompt)">{{ prompt }}</button>
+              }
+            </div>
+          }
+
+          <div class="chatbot-input-wrap">
+            <textarea
+              [(ngModel)]="chatbotInput"
+              (keydown)="onChatbotInputKeydown($event)"
+              placeholder="Ex. calcul de conformité, observation, rôle, évaluation..."
+              rows="3"
+            ></textarea>
+            <div class="chatbot-actions">
+              @if (chatbotError) {
+                <span class="chatbot-error">{{ chatbotError }}</span>
+              }
+              <button type="button" class="chatbot-send-btn" (click)="sendChatbotMessage()" [disabled]="chatbotSending || !chatbotInput.trim()">
+                {{ chatbotSending ? 'Envoi...' : 'Envoyer' }}
+              </button>
+            </div>
+          </div>
+        </section>
+      }
+
+      <button type="button" class="chatbot-toggle" (click)="toggleChatbot()">
+        {{ chatbotOpen ? 'Fermer le chat' : 'Chatbot IA' }}
+      </button>
+    </div>
+  }
+  @if (connected && userRole === 'general_manager') {
+    <section class="admin-dashboard workspace-admin reveal-on-scroll reveal-up is-visible">
+      <aside class="admin-sidebar workspace-sidebar workspace-sidebar--admin reveal-on-scroll reveal-left reveal-delay-1 is-visible">
+        <div class="sidebar-header">
+          <h2>Dashboard Admin</h2>
+          <p>Gestion des secteurs, filiales et responsables</p>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="sidebar-link" [class.active]="adminSection === 'home'" type="button" (click)="selectAdminSection('home')">Dashboard</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'users' || adminSection === 'managers'" type="button" (click)="selectAdminSection('users')">Utilisateurs</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'sectors'" type="button" (click)="selectAdminSection('sectors')">Secteurs</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'branches'" type="button" (click)="selectAdminSection('branches')">Filiales</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'laboratories'" type="button" (click)="selectAdminSection('laboratories')">Laboratoires</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'evaluations'" type="button" (click)="selectAdminSection('evaluations')">Évaluations</button>
+          <button class="sidebar-link" [class.active]="adminSection === 'ai'" type="button" (click)="selectAdminSection('ai')">Prédiction et IA</button>
+          <button class="sidebar-link sidebar-link--logout" type="button" (click)="logout()">Déconnexion</button>
+        </nav>
+      </aside>
+
+      <section class="admin-content workspace-content workspace-content--admin reveal-on-scroll reveal-right reveal-delay-2 is-visible">
+        <div class="dashboard-header workspace-header workspace-header--admin">
+          <div class="dashboard-header-brand">
+            <img src="/logo.png" alt="Logo Poulina" class="dashboard-logo">
+            <span class="dashboard-badge dashboard-badge--admin">Admin</span>
+          </div>
+          <div class="dashboard-header-actions">
+            <button
+              type="button"
+              class="admin-notification-btn"
+              title="Voir les nouvelles évaluations"
+              aria-label="Voir les nouvelles évaluations"
+              (click)="selectAdminSection('evaluations')"
+            >
+              <span class="admin-notification-icon" aria-hidden="true">🔔</span>
+              @if (adminNotificationCount > 0) {
+                <span class="admin-notification-badge">{{ adminNotificationCount }}</span>
+              }
+            </button>
+            <button
+              type="button"
+              class="admin-notification-btn"
+              title="Voir les nouveaux utilisateurs"
+              aria-label="Voir les nouveaux utilisateurs"
+              (click)="selectAdminSection('users')"
+            >
+              <span class="admin-notification-icon" aria-hidden="true">👤</span>
+              @if (adminUserNotificationCount > 0) {
+                <span class="admin-notification-badge">{{ adminUserNotificationCount }}</span>
+              }
+            </button>
+          </div>
+        </div>
+
+        <h1>Bienvenue, {{ userFirstName }} {{ userLastName }}</h1>
+        <p>Gestion administrative. Choisissez un module dans la barre latérale.</p>
+
+        @if (adminSection === 'home') {
+          <section class="dashboard-summary">
+            <div class="dashboard-cards">
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M5 19C5 16.7909 8.13401 15 12 15C15.866 15 19 16.7909 19 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <strong>{{ dashboardStats.users }}</strong>
+                <span>Utilisateurs par filiale</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 4L14.5 9.2L20 10L16 13.9L17 19.5L12 16.8L7 19.5L8 13.9L4 10L9.5 9.2L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <strong>{{ dashboardStats.managers }}</strong>
+                <span>Responsables de secteur</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 10L12 4L20 10V19H4V10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 19V13H15V19" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <strong>{{ dashboardStats.branches }}</strong>
+                <span>Filiales</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3L20 7V17L12 21L4 17V7L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M12 21V12" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M20 7L12 12L4 7" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                </span>
+                <strong>{{ dashboardStats.sectors }}</strong>
+                <span>Secteurs</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 4H17C18.1046 4 19 4.89543 19 6V20L12 16L5 20V6C5 4.89543 5.89543 4 7 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 9H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M9 12H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <strong>{{ dashboardStats.evaluations }}</strong>
+                <span>Évaluations enregistrées</span>
+              </article>
+            </div>
+            <section class="admin-powerbi-card">
+              <div class="admin-powerbi-header">
+                <div>
+                  <span class="admin-powerbi-tag">Power BI</span>
+                  <h3>Dashboard Poulina</h3>
+                  <p>Consultez directement le tableau de bord Power BI intégré dans l’espace administrateur.</p>
+                </div>
+                <button
+                  type="button"
+                  class="admin-powerbi-link"
+                  (click)="refreshAdminPowerBiDashboard()">
+                  Actualiser
+                </button>
+              </div>
+              <div class="admin-powerbi-frame">
+                <iframe
+                  [src]="adminPowerBiDashboardUrl"
+                  title="Dashboard Power BI Poulina"
+                  loading="lazy"
+                  allowfullscreen="true">
+                </iframe>
+              </div>
+            </section>
+          </section>
+        } @else if (adminSection === 'branches') {
+          <section class="branch-management">
+            <div class="branch-actions">
+              <div class="branch-search">
+                <label for="branchSearch">Rechercher une filiale</label>
+                <input id="branchSearch" type="text" [(ngModel)]="branchSearch" placeholder="Code, nom ou secteur">
+              </div>
+              <button class="btn-primary" type="button" (click)="addNewBranch()">Ajouter une filiale</button>
+            </div>
+            <div class="branch-list">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Secteur</th>
+                    <th>Laboratoire</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (branch of filteredBranches; track branch.id) {
+                    <tr>
+                      <td>{{ branch.code }}</td>
+                      <td>{{ branch.name }}</td>
+                      <td>{{ branch.sector }}</td>
+                      <td>{{ branch.laboratoireName || '—' }}</td>
+                      <td>
+                        <button class="btn-secondary" type="button" (click)="editBranch(branch)">Modifier</button>
+                        <button class="btn-secondary" type="button" (click)="openSectorChange(branch)">Changer le secteur</button>
+                        <button class="btn-ghost" type="button" (click)="deleteBranch(branch.id)">Supprimer</button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="branch-form" id="adminBranchForm">
+              <h2>{{ isBranchEditing ? 'Modifier la filiale' : 'Ajouter une nouvelle filiale' }}</h2>
+              <div class="form-group">
+                <label for="branchCode">Code de filiale</label>
+                <input id="branchCode" type="number" [(ngModel)]="branchForm.code" required>
+              </div>
+              <div class="form-group">
+                <label for="branchName">Nom de filiale</label>
+                <input id="branchName" type="text" [(ngModel)]="branchForm.name" required>
+              </div>
+              <div class="form-group">
+                <label for="branchSector">Secteur associé</label>
+                <select id="branchSector" [(ngModel)]="branchForm.sectorId" required>
+                  <option [ngValue]="null" disabled>Choisir un secteur</option>
+                  @for (sector of sectors; track sector.id) {
+                    <option [ngValue]="sector.id">{{ sector.name }}</option>
+                  }
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="branchLaboratory">Laboratoire</label>
+                <select id="branchLaboratory" [(ngModel)]="branchForm.laboratoireId">
+                  <option [ngValue]="null">Aucun</option>
+                  @for (laboratory of laboratories; track laboratory.id) {
+                    <option [ngValue]="laboratory.id">{{ laboratory.name }}</option>
+                  }
+                </select>
+              </div>
+              @if (error) {
+                <p class="error">{{ error }}</p>
+              }
+              <div class="form-actions">
+                <button class="btn-submit" type="button" (click)="saveBranch()" [disabled]="adminFormSaving">{{ adminFormSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                <button class="btn-secondary" type="button" (click)="cancelBranchForm()">Annuler</button>
+              </div>
+            </div>
+           </section>
+         } @else if (adminSection === 'laboratories') {
+           <section class="branch-management">
+             <div class="branch-actions">
+               <div class="branch-search">
+                 <label for="laboratorySearch">Rechercher un laboratoire</label>
+                 <input id="laboratorySearch" type="text" [(ngModel)]="laboratorySearch" placeholder="Nom du laboratoire">
+               </div>
+               <button class="btn-primary" type="button" (click)="addNewLaboratory()">Ajouter un laboratoire</button>
+             </div>
+             <div class="branch-list">
+               <table>
+                 <thead>
+                   <tr>
+                     <th>ID</th>
+                     <th>Nom</th>
+                     <th>Actions</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   @for (laboratory of filteredLaboratories; track laboratory.id) {
+                     <tr>
+                       <td>{{ laboratory.id }}</td>
+                       <td>{{ laboratory.name }}</td>
+                       <td>
+                         <button class="btn-secondary" type="button" (click)="editLaboratory(laboratory)">Modifier</button>
+                         <button class="btn-ghost" type="button" (click)="deleteLaboratory(laboratory.id)">Supprimer</button>
+                       </td>
+                     </tr>
+                   }
+                 </tbody>
+               </table>
+            </div>
+            @if (sectorChangeBranchId) {
+              <div class="branch-form" id="branchSectorChangeForm">
+                <h2>Changer le secteur de la filiale</h2>
+                <div class="form-group">
+                  <label for="sectorChangeSelect">Nouveau secteur</label>
+                  <select id="sectorChangeSelect" [(ngModel)]="sectorChangeSectorId" required>
+                    <option [ngValue]="null" disabled>Choisir un secteur</option>
+                    @for (sector of sectors; track sector.id) {
+                      <option [ngValue]="sector.id">{{ sector.name }}</option>
+                    }
+                  </select>
+                </div>
+                @if (error) {
+                  <p class="error">{{ error }}</p>
+                }
+                <div class="form-actions">
+                  <button class="btn-submit" type="button" (click)="saveBranchSectorChange()">Appliquer</button>
+                  <button class="btn-secondary" type="button" (click)="cancelSectorChange()">Annuler</button>
+                </div>
+              </div>
+            }
+             <div class="branch-form" id="adminLaboratoryForm">
+               <h2>{{ isLaboratoryEditing ? 'Modifier le laboratoire' : 'Ajouter un nouveau laboratoire' }}</h2>
+               <div class="form-group">
+                 <label for="laboratoryName">Nom du laboratoire</label>
+                 <input id="laboratoryName" type="text" [(ngModel)]="laboratoryForm.name" required>
+               </div>
+               @if (error) {
+                 <p class="error">{{ error }}</p>
+               }
+               <div class="form-actions">
+                 <button class="btn-submit" type="button" (click)="saveLaboratory()" [disabled]="adminFormSaving">{{ adminFormSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                 <button class="btn-secondary" type="button" (click)="cancelLaboratoryForm()">Annuler</button>
+               </div>
+             </div>
+           </section>
+         } @else if (adminSection === 'sectors') {
+          <section class="sector-management">
+            <div class="branch-actions">
+              <div class="branch-search">
+                <label for="sectorSearch">Rechercher un secteur</label>
+                <input id="sectorSearch" type="text" [(ngModel)]="sectorSearch" placeholder="Nom du secteur">
+              </div>
+              <button class="btn-primary" type="button" (click)="addNewSector()">Ajouter un secteur</button>
+            </div>
+            <div class="branch-list">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Responsable</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (sector of filteredSectors; track sector.id) {
+                    <tr>
+                      <td>{{ sector.id }}</td>
+                      <td>{{ sector.name }}</td>
+                      <td>{{ sector.managerName || '—' }}</td>
+                      <td>
+                        <button class="btn-secondary" type="button" (click)="editSector(sector)">Modifier</button>
+                        <button class="btn-ghost" type="button" (click)="deleteSector(sector.id)">Supprimer</button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="branch-form" id="adminSectorForm">
+              <h2>{{ isSectorEditing ? 'Modifier le secteur' : 'Ajouter un nouveau secteur' }}</h2>
+              <div class="form-group">
+                <label for="sectorName">Nom du secteur</label>
+                <input id="sectorName" type="text" [(ngModel)]="sectorForm.name" required>
+              </div>
+              <div class="form-group">
+                <label for="sectorManager">Responsable de secteur</label>
+                <select id="sectorManager" [(ngModel)]="sectorForm.managerId" required>
+                  <option [ngValue]="null" disabled>Choisir un responsable</option>
+                  @for (user of users; track user.id) {
+                    @if (user.role === 'sector_manager') {
+                      <option [ngValue]="user.id">{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</option>
+                    }
+                  }
+                </select>
+              </div>
+              @if (error) {
+                <p class="error">{{ error }}</p>
+              }
+              <div class="form-actions">
+                <button class="btn-submit" type="button" (click)="saveSector()" [disabled]="adminFormSaving">{{ adminFormSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                <button class="btn-secondary" type="button" (click)="cancelSectorForm()">Annuler</button>
+              </div>
+            </div>
+          </section>
+         } @else if (adminSection === 'users' || adminSection === 'managers') {
+           <section class="account-management">
+             <div class="branch-actions">
+               <div class="branch-search">
+                 <label for="userSearch">Rechercher un utilisateur</label>
+                 <input id="userSearch" type="text" [(ngModel)]="userSearch" placeholder="Nom, prénom, e-mail, filiale ou secteur">
+               </div>
+               <div class="admin-account-toolbar">
+                 <div class="admin-account-filters">
+                   <button
+                     class="btn-secondary"
+                     type="button"
+                     [class.is-active]="adminUserFilter === 'sector_manager'"
+                     (click)="toggleAdminUserFilter('sector_manager')"
+                   >
+                     Responsable
+                   </button>
+                   <button
+                     class="btn-secondary"
+                     type="button"
+                     [class.is-active]="adminUserFilter === 'user'"
+                     (click)="toggleAdminUserFilter('user')"
+                   >
+                     Utilisateur
+                   </button>
+                 </div>
+                 <button class="btn-primary" type="button" (click)="addNewUser(adminUserFilter === 'sector_manager' ? 'sector_manager' : 'user')">
+                   {{ adminUserFilter === 'sector_manager' ? 'Ajouter un responsable' : 'Ajouter un utilisateur' }}
+                 </button>
+               </div>
+             </div>
+             <div class="branch-list">
+               <table>
+                 <thead>
+                   <tr>
+                     <th>Type</th>
+                     <th>E-mail</th>
+                     <th>Prénom</th>
+                     <th>Nom</th>
+                     <th>Affectation</th>
+                     <th>Actif</th>
+                     <th>Actions</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   @for (user of filteredAdminUsers; track user.id) {
+                     <tr>
+                       <td>
+                         <span class="admin-role-pill" [class.is-manager]="user.role === 'sector_manager'">
+                           @if (user.role === 'sector_manager') {
+                             <span class="role-star" aria-hidden="true">★</span>
+                           }
+                           {{ user.role === 'sector_manager' ? 'Responsable' : 'Utilisateur' }}
+                         </span>
+                       </td>
+                       <td>{{ user.email }}</td>
+                       <td>{{ user.first_name }}</td>
+                       <td>{{ user.last_name }}</td>
+                       <td>
+                         @if (user.role === 'sector_manager') {
+                           {{ user.managed_sector__name || '—' }}
+                         } @else {
+                           {{ user.branch__name || '—' }} / {{ user.branch__sector__name || '—' }}
+                         }
+                       </td>
+                       <td>{{ user.is_active ? 'Oui' : 'Non' }}</td>
+                       <td>
+                         <button class="btn-secondary" type="button" (click)="editUser(user)">Modifier</button>
+                         <button class="btn-secondary" type="button" (click)="toggleUserActive(user.id)">{{ user.is_active ? 'Désactiver' : 'Activer' }}</button>
+                         <button class="btn-ghost" type="button" (click)="deleteUser(user.id)">Supprimer</button>
+                       </td>
+                     </tr>
+                   }
+                 </tbody>
+               </table>
+             </div>
+             <div class="branch-form" id="adminAccountForm">
+              <h2>
+                {{ isUserEditing
+                  ? (userForm.role === 'sector_manager' ? 'Modifier le responsable de secteur' : 'Modifier l’utilisateur')
+                  : (userForm.role === 'sector_manager' ? 'Ajouter un responsable de secteur' : 'Ajouter un utilisateur') }}
+              </h2>
+              <div class="form-group">
+                <label for="userEmail2">E-mail</label>
+                <input id="userEmail2" type="email" [(ngModel)]="userForm.email" name="userEmail2" required>
+              </div>
+              <div class="form-group">
+                <label for="userFirstName2">Prénom</label>
+                <input id="userFirstName2" type="text" [(ngModel)]="userForm.first_name" name="userFirstName2" required>
+              </div>
+              <div class="form-group">
+                <label for="userLastName2">Nom</label>
+                <input id="userLastName2" type="text" [(ngModel)]="userForm.last_name" name="userLastName2" required>
+              </div>
+              <div class="form-group">
+                <label for="userPassword2">Mot de passe</label>
+                <input id="userPassword2" type="password" [(ngModel)]="userForm.password" name="userPassword2" [required]="!isUserEditing">
+              </div>
+              <div class="form-group">
+                <label for="userRole2">Rôle</label>
+                <select id="userRole2" [(ngModel)]="userForm.role" name="userRole2" required>
+                  <option value="user">Utilisateur</option>
+                  <option value="sector_manager">Responsable de secteur</option>
+                </select>
+              </div>
+              @if (userForm.role === 'sector_manager') {
+                <div class="form-group">
+                  <label for="managedSector2">Secteur géré</label>
+                  <select id="managedSector2" [(ngModel)]="userForm.managed_sector_id" name="managedSector2">
+                    <option [ngValue]="null" disabled>Choisir un secteur</option>
+                    @for (sector of sectors; track sector.id) {
+                      <option [ngValue]="sector.id">{{ sector.name }}</option>
+                    }
+                  </select>
+                </div>
+              }
+              @if (userForm.role === 'user') {
+                <div class="form-group">
+                  <label for="userBranch2">Filiale</label>
+                  <select id="userBranch2" [(ngModel)]="userForm.branch_id" name="userBranch2">
+                    <option [ngValue]="null" disabled>Choisir une filiale</option>
+                    @for (branch of branches; track branch.id) {
+                      <option [ngValue]="branch.id">{{ branch.code }} - {{ branch.name }} ({{ branch.sector }})</option>
+                    }
+                  </select>
+                </div>
+              }
+              @if (error) {
+                <p class="error">{{ error }}</p>
+              }
+              <div class="form-actions">
+                <button class="btn-submit" type="button" (click)="saveUser()" [disabled]="adminFormSaving">{{ adminFormSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                <button class="btn-secondary" type="button" (click)="cancelUserForm()">Annuler</button>
+              </div>
+            </div>
+          </section>
+        } @else if (adminSection === 'evaluations') {
+          <section class="evaluations-management">
+            @if (isEvaluationDetailMode) {
+              <div class="evaluation-detail-view">
+                <div class="evaluation-detail-toolbar">
+                  <button class="btn-ghost" type="button" (click)="backToList()">← Retour à la liste</button>
+                  <h2 class="evaluation-detail-title">{{ selectedEvaluationTitle }}</h2>
+                  <button class="btn-secondary" type="button" (click)="exportEvaluationDetailPdf()" [disabled]="selectedEvaluation.length === 0">Exporter ce détail en PDF</button>
+                </div>
+
+                @if (evaluationError) {
+                  <p class="error">{{ evaluationError }}</p>
+                }
+                @if (evaluationSaveMessage) {
+                  <p class="success">{{ evaluationSaveMessage }}</p>
+                }
+                @if (evaluationSaveError) {
+                  <p class="error">{{ evaluationSaveError }}</p>
+                }
+
+                @if (selectedEvaluation.length === 0) {
+                  <div class="admin-placeholder">
+                    <p>Aucune donnée d'évaluation disponible.</p>
+                  </div>
+                }
+
+                @if (selectedEvaluation.length > 0) {
+                  <div class="evaluation-detail-meta">
+                    <div class="evaluation-detail-meta-card">
+                      <span class="evaluation-detail-meta-label">Filiale</span>
+                      <strong>{{ selectedEvaluationMeta.filiale }}</strong>
+                    </div>
+                    <div class="evaluation-detail-meta-card">
+                      <span class="evaluation-detail-meta-label">Secteur</span>
+                      <strong>{{ selectedEvaluationMeta.secteur }}</strong>
+                    </div>
+                    <div class="evaluation-detail-meta-card">
+                      <span class="evaluation-detail-meta-label">Utilisateur</span>
+                      <strong>{{ selectedEvaluationMeta.user }}</strong>
+                    </div>
+                    <div class="evaluation-detail-meta-card">
+                      <span class="evaluation-detail-meta-label">Responsable de secteur</span>
+                      <strong>{{ selectedEvaluationMeta.manager }}</strong>
+                    </div>
+                  </div>
+
+                  <div class="evaluation-axis-groups">
+                    @for (group of groupedSelectedEvaluations; track group.axis) {
+                      <section class="evaluation-axis-group">
+                        <div class="evaluation-axis-group-header">
+                          <div>
+                            <span class="evaluation-axis-group-label">Axe</span>
+                            <h3>{{ group.axis }}</h3>
+                          </div>
+                          <div class="evaluation-axis-group-stats">
+                            <span>Moyenne : <strong>{{ group.rows[0].moyenne_axe ?? '—' }}</strong></span>
+                            <span>Conformité : <strong>{{ group.rows[0].conformite_axe ?? '—' }}%</strong></span>
+                          </div>
+                        </div>
+
+                        <div class="evaluation-table-wrapper">
+                          <table class="evaluation-table evaluation-detail-table">
+                            <thead>
+                              <tr>
+                                <th>Critères</th>
+                                <th>Note /20</th>
+                                <th>Pondération</th>
+                                <th>Observations</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @for (evaluation of group.rows; track evaluation.id || $index) {
+                                <tr>
+                                  <td class="evaluation-criteria-cell">{{ evaluation.criteres || '—' }}</td>
+                                  <td>
+                                    @if (evaluation.editing) {
+                                      <input class="evaluation-input" type="text" [(ngModel)]="evaluation.note" placeholder="Note /20">
+                                    } @else {
+                                      {{ evaluation.note || '—' }}
+                                    }
+                                  </td>
+                                  <td>{{ evaluation.ponderation || '—' }}</td>
+                                  <td>
+                                    @if (evaluation.editing) {
+                                      <textarea class="evaluation-textarea" [(ngModel)]="evaluation.observations" placeholder="Observations"></textarea>
+                                    } @else {
+                                      <span class="evaluation-observations-cell">{{ evaluation.observations || '—' }}</span>
+                                    }
+                                  </td>
+                                  <td class="evaluation-row-actions">
+                                    @if (evaluation.editing) {
+                                      <button class="btn-primary" type="button" (click)="saveEvaluationRow(evaluation)" [disabled]="evaluation.isSaving">{{ evaluation.isSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                                      <button class="btn-ghost" type="button" (click)="cancelEditEvaluation(evaluation)" [disabled]="evaluation.isSaving">Annuler</button>
+                                    } @else {
+                                      <button class="btn-secondary" type="button" (click)="editEvaluationRow(evaluation)" [disabled]="evaluation.isDeleting">Modifier</button>
+                                      <button class="btn-ghost" type="button" (click)="deleteEvaluation(evaluation, selectedEvaluation.indexOf(evaluation))" [disabled]="evaluation.isDeleting">{{ evaluation.isDeleting ? 'Suppression...' : 'Supprimer' }}</button>
+                                    }
+                                  </td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      </section>
+                    }
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="evaluation-import-panel">
+                <div class="evaluation-import-intro">
+                  <span class="evaluation-section-badge">Liste</span>
+                  <h2>Liste récapitulative des évaluations</h2>
+                  <div class="evaluation-toolbar">
+                    <div class="evaluation-filters">
+                      <label>
+                        <span class="filter-label">Recherche</span>
+                        <input type="text" [(ngModel)]="evaluationSearch" (ngModelChange)="resetEvaluationPagination()" placeholder="Date, utilisateur, filiale ou secteur">
+                      </label>
+                      <label>
+                        <span class="filter-label">Date</span>
+                        <select [(ngModel)]="evaluationDateFilter" (ngModelChange)="resetEvaluationPagination()">
+                          <option [ngValue]="''">Toutes</option>
+                          @for (date of evaluationDates; track date) {
+                            <option [ngValue]="date">{{ date }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label>
+                        <span class="filter-label">Filiale</span>
+                        <select [(ngModel)]="evaluationFilialeFilter" (ngModelChange)="resetEvaluationPagination()">
+                          <option [ngValue]="null">Toutes</option>
+                          @for (branch of branches; track branch.id) {
+                            <option [ngValue]="branch.id">{{ branch.code }} - {{ branch.name }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label>
+                        <span class="filter-label">Secteur</span>
+                        <select [(ngModel)]="evaluationSectorFilter" (ngModelChange)="resetEvaluationPagination()">
+                          <option [ngValue]="null">Tous</option>
+                          @for (sector of sectors; track sector.id) {
+                            <option [ngValue]="sector.id">{{ sector.name }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label>
+                        <span class="filter-label">Utilisateur</span>
+                        <select [(ngModel)]="evaluationUserFilter" (ngModelChange)="resetEvaluationPagination()">
+                          <option [ngValue]="null">Tous</option>
+                          @for (user of users; track user.id) {
+                            <option [ngValue]="user.id">{{ user.first_name }} {{ user.last_name }}</option>
+                          }
+                        </select>
+                      </label>
+                    </div>
+                    <div class="evaluation-actions evaluation-actions--compact">
+                      <button class="btn-secondary" type="button" (click)="exportEvaluationPdf()" [disabled]="filteredEvaluations.length === 0">Exporter PDF</button>
+                      <button class="btn-primary" type="button" (click)="loadEvaluations()" [disabled]="isEvaluationLoading">{{ isEvaluationLoading ? 'Chargement...' : 'Actualiser' }}</button>
+                    </div>
+                  </div>
+                  @if (evaluationSuccess) {
+                    <p class="success">{{ evaluationSuccess }}</p>
+                  }
+                  @if (evaluationError) {
+                    <p class="error">{{ evaluationError }}</p>
+                  }
+                  @if (evaluationSaveMessage) {
+                    <p class="success">{{ evaluationSaveMessage }}</p>
+                  }
+                  @if (evaluationSaveError) {
+                    <p class="error">{{ evaluationSaveError }}</p>
+                  }
+                </div>
+              </div>
+
+              @if (filteredEvaluations.length === 0) {
+                <div class="admin-placeholder">
+                  <p>Aucune évaluation ne correspond aux filtres.</p>
+                </div>
+              }
+
+              @if (filteredEvaluations.length > 0) {
+                <div class="evaluation-table-wrapper">
+                  <table class="evaluation-table evaluation-summary-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Filiale</th>
+                        <th>Secteur</th>
+                        <th>Responsable secteur</th>
+                        <th>Utilisateur</th>
+                        <th>Note moyenne /20</th>
+                        <th>Conformité globale</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (evaluation of pagedFilteredEvaluations; track evaluation.id) {
+                        <tr>
+                          <td>{{ evaluation.periode || '—' }}</td>
+                          <td>{{ evaluation.filiale_name || '—' }}</td>
+                          <td>{{ evaluation.secteur_name || '—' }}</td>
+                          <td>{{ evaluation.manager_name || '—' }}</td>
+                          <td>{{ evaluation.user_name || '—' }}</td>
+                          <td>{{ evaluation.note_moyenne }}</td>
+                          <td>
+                            @if (evaluation.conformite_globale !== '—' && evaluation.conformite_globale !== undefined && evaluation.conformite_globale !== null) {
+                              <span class="conformite-cell"
+                                    [class.high]="getConformiteNumber(evaluation) >= 80"
+                                    [class.medium]="getConformiteNumber(evaluation) >= 50 && getConformiteNumber(evaluation) < 80"
+                                    [class.low]="getConformiteNumber(evaluation) > 0 && getConformiteNumber(evaluation) < 50">
+                                {{ evaluation.conformite_globale }}%
+                              </span>
+                            } @else {
+                              <span class="muted">—</span>
+                            }
+                          </td>
+                          <td class="evaluation-summary-actions">
+                            <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetail(evaluation)">Détail</button>
+                            <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetailAndExportPdf(evaluation)">PDF</button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <div class="evaluation-toolbar">
+                  <div class="evaluation-filters">
+                    <span class="filter-label">
+                      Affichage {{ evaluationPageStart }}-{{ evaluationPageEnd }} sur {{ filteredEvaluations.length }} évaluation(s)
+                    </span>
+                  </div>
+                  <div class="evaluation-actions evaluation-actions--compact">
+                    <button class="btn-secondary" type="button" (click)="previousEvaluationPage()" [disabled]="evaluationPage <= 1">Précédent</button>
+                    <span class="filter-label">Page {{ evaluationPage }} / {{ evaluationPageCount }}</span>
+                    <button class="btn-secondary" type="button" (click)="nextEvaluationPage()" [disabled]="evaluationPage >= evaluationPageCount">Suivant</button>
+                  </div>
+                </div>
+              }
+            }
+          </section>
+        } @else if (adminSection === 'ai') {
+          <section class="evaluations-management">
+            <div class="ai-workspace">
+              <div class="ai-hero">
+                <div>
+                  <span class="ai-badge">Module ML</span>
+                  <h2>Prédiction et IA</h2>
+                  <p>Choisissez les paramètres du scénario pour prédire la note et la non-conformité futures.</p>
+                </div>
+                <div class="ai-hero-stat">
+                  <span>Sorties</span>
+                  <strong>Note + non-conformité</strong>
+                </div>
+              </div>
+
+              <div class="ai-workspace-switch">
+                <button
+                  type="button"
+                  class="ai-switch-btn"
+                  [class.active]="aiWorkspaceMode === 'predict'"
+                  (click)="selectAiWorkspace('predict')"
+                >
+                  Prédire
+                </button>
+                <button
+                  type="button"
+                  class="ai-switch-btn"
+                  [class.active]="aiWorkspaceMode === 'improve'"
+                  (click)="selectAiWorkspace('improve')"
+                >
+                  Améliorer
+                </button>
+              </div>
+
+              @if (aiWorkspaceMode === 'predict') {
+                <div class="ai-form-card">
+                  <div class="ai-form-grid">
+                    <label class="ai-field" for="adminAiYear">
+                      <span>Année de prédiction</span>
+                      <select id="adminAiYear" [(ngModel)]="adminAiYear">
+                        @for (year of adminAiYearOptions; track year) {
+                          <option [ngValue]="year">{{ year }}</option>
+                        }
+                      </select>
+                    </label>
+
+                    <label class="ai-field" for="adminAiMonth">
+                      <span>Mois de prédiction</span>
+                      <select id="adminAiMonth" [(ngModel)]="adminAiMonth">
+                        @for (month of adminAiMonthOptions; track month) {
+                          <option [ngValue]="month">{{ month }}</option>
+                        }
+                      </select>
+                    </label>
+
+                    <label class="ai-field ai-field--wide" for="adminAiBranch">
+                      <span>Filiale</span>
+                      <select id="adminAiBranch" [(ngModel)]="adminAiBranchId">
+                        <option [ngValue]="null" disabled>Choisir une filiale</option>
+                        @for (branch of branches; track branch.id) {
+                          <option [ngValue]="branch.id">{{ branch.code }} - {{ branch.name }} ({{ branch.sector }})</option>
+                        }
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="ai-form-actions">
+                    <button type="button" class="ai-btn-primary" (click)="predictAdminAi()" [disabled]="mlPredictionLoading">
+                      {{ mlPredictionLoading ? 'Prédiction...' : 'Prédire' }}
+                    </button>
+                    <button type="button" class="ai-btn-secondary" (click)="initializeAdminAiWorkspace(true)">Réinitialiser</button>
+                    <button type="button" class="ai-btn-secondary" (click)="selectAiWorkspace('improve')">Améliorer</button>
+                  </div>
+                </div>
+
+                @if (mlPredictionError) {
+                  <p class="error">{{ mlPredictionError }}</p>
+                }
+                @if (checklistPrediction) {
+                  <div class="ml-prediction-panel ai-results-panel">
+                    <div class="ml-prediction-header">
+                      <div>
+                        <h3>Résultat IA prévisionnel</h3>
+                        <p>Cette simulation prédit la note future et la non-conformité de l'audit pour le scénario choisi.</p>
+                      </div>
+                      <span class="ml-prediction-tag">Seuil de non-conformité &lt; {{ checklistPrediction.summary.threshold_non_conformite }}</span>
+                    </div>
+                    <div class="ml-prediction-grid">
+                      <div class="ml-prediction-card ml-prediction-card--primary">
+                        <span>Note moyenne prédite</span>
+                        <strong>{{ checklistPrediction.summary.predicted_average_note }}</strong>
+                      </div>
+                      <div class="ml-prediction-card ml-prediction-card--secondary">
+                        <span>Taux de conformité prédit</span>
+                        <strong>{{ checklistPrediction.summary.predicted_conformity_pct }} %</strong>
+                      </div>
+                      <div class="ml-prediction-card ml-prediction-card--alert">
+                        <span>Non-conformités prédites</span>
+                        <strong>{{ checklistPrediction.summary.predicted_non_conformities }} / {{ checklistPrediction.summary.total_rows }}</strong>
+                      </div>
+                    </div>
+                    @if (checklistPrediction.top_risks.length > 0) {
+                      <div class="ml-risk-list">
+                        <h4>Critères les plus exposés à la non-conformité</h4>
+                        @for (risk of checklistPrediction.top_risks; track risk.row_index) {
+                          <div class="ml-risk-item">
+                            <strong>{{ risk.axe_evaluation }}</strong>
+                            <span>{{ risk.criteres }}</span>
+                            <em>Non-conformité prédite: {{ risk.predicted_non_conforme ? 'Oui' : 'Non' }} · Risque de non-conformité: {{ risk.probability_non_conformite ?? 0 }} % · Note prédite: {{ risk.predicted_note }}</em>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              } @else {
+                <div class="ai-improve-panel">
+                  <div class="ai-improve-header">
+                    <div>
+                      <h3>Améliorer la qualité des prévisions</h3>
+                      <p>Retrouvez ici les méthodes actuellement utilisées, leur niveau de performance et l'état général de la solution.</p>
+                    </div>
+                    <button type="button" class="ai-btn-secondary" (click)="loadMlopsStatus()" [disabled]="mlopsLoading">
+                      {{ mlopsLoading ? 'Actualisation...' : 'Actualiser les indicateurs' }}
+                    </button>
+                  </div>
+
+                  @if (mlopsError) {
+                    <p class="error">{{ mlopsError }}</p>
+                  }
+
+                  @if (mlopsStatus) {
+                    <div class="ai-improve-grid">
+                      @for (entry of mlopsRegistryEntries; track entry.key) {
+                        <article class="ai-improve-card">
+                          <div class="ai-improve-card-header">
+                            <div>
+                              <span class="ai-improve-chip">{{ formatTaskTypeLabel(entry.value.task_type) }}</span>
+                              <h4>{{ formatObjectiveLabel(entry.key) }}</h4>
+                            </div>
+                            <span class="ai-improve-updated">Mis à jour le {{ formatMlopsTimestamp(entry.value.updated_at) }}</span>
+                          </div>
+                          <div class="ai-improve-stats">
+                            <div>
+                              <span>Méthode actuellement utilisée</span>
+                              <strong>{{ entry.value.promoted_model_name }}</strong>
+                            </div>
+                            <div>
+                              <span>Données utilisées</span>
+                              <strong>{{ entry.value.base_rows }} -> {{ entry.value.augmented_rows }}</strong>
+                            </div>
+                          </div>
+                          <div class="ai-improve-metrics">
+                            @for (metric of metricEntries(entry.value.promoted_metrics); track metric[0]) {
+                              <div class="ai-improve-metric">
+                                <span>{{ formatMetricLabel(metric[0]) }}</span>
+                                <strong>{{ formatMetricValue(metric[1]) }}</strong>
+                              </div>
+                            }
+                          </div>
+                          @if (entry.value.artifact) {
+                            <div class="ai-improve-artifact">
+                              <span>Fichier du modèle</span>
+                              <strong>{{ formatFileSize(entry.value.artifact.size_bytes) }}</strong>
+                              <small>{{ formatMlopsTimestamp(entry.value.artifact.updated_at) }}</small>
+                            </div>
+                          }
+                        </article>
+                      }
+                    </div>
+
+                    <div class="ai-improve-subgrid">
+                      @if (mlopsStatus.monitoring) {
+                        <section class="ai-improve-block">
+                          <div class="ai-improve-block-header">
+                            <h4>Surveillance de la solution</h4>
+                            <span>Suivi de disponibilité et de performance</span>
+                          </div>
+                          <div class="ai-improve-monitoring-list">
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>Santé de l'application</strong>
+                                <span>{{ mlopsStatus.monitoring.health_endpoint }}</span>
+                              </div>
+                            </div>
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>Indicateurs techniques</strong>
+                                <span>{{ mlopsStatus.monitoring.metrics_endpoint }}</span>
+                              </div>
+                            </div>
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>Console Prometheus</strong>
+                                <span>{{ mlopsStatus.monitoring.prometheus_url }}</span>
+                              </div>
+                            </div>
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>Tableau de bord Grafana</strong>
+                                <span>{{ mlopsStatus.monitoring.grafana_url }}</span>
+                              </div>
+                            </div>
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>Interface MLflow</strong>
+                                <span>{{ mlopsStatus.monitoring.mlflow_url }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      }
+
+                      <section class="ai-improve-block">
+                        <div class="ai-improve-block-header">
+                          <h4>Fichiers actifs</h4>
+                          <span>Prévisions actuellement déployées</span>
+                        </div>
+                        <div class="ai-improve-artifact-list">
+                          @for (artifact of mlopsArtifactEntries; track artifact.key) {
+                            <div class="ai-improve-artifact-row">
+                              <div>
+                                <strong>{{ formatArtifactLabel(artifact.key) }}</strong>
+                                <span>{{ artifact.value.exists ? 'Disponible' : 'Indisponible' }}</span>
+                              </div>
+                              <div class="ai-improve-artifact-meta">
+                                <strong>{{ formatFileSize(artifact.value.size_bytes) }}</strong>
+                                <small>{{ formatMlopsTimestamp(artifact.value.updated_at) }}</small>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </section>
+
+                      <section class="ai-improve-block">
+                        <div class="ai-improve-block-header">
+                          <h4>Historique des mises à jour</h4>
+                          <span>{{ formatMlopsTimestamp(mlopsStatus.updated_at) }}</span>
+                        </div>
+                        <div class="ai-improve-run-groups">
+                          @for (group of mlopsRecentRunGroups; track group.key) {
+                            <div class="ai-improve-run-group">
+                              <strong>{{ formatObjectiveLabel(group.key) }}</strong>
+                              @for (run of group.runs; track run.run_id) {
+                                <div class="ai-improve-run-row">
+                                  <div>
+                                    <span>{{ run.best_model_name }}</span>
+                                    <small>{{ formatMlopsTimestamp(run.started_at) }}</small>
+                                  </div>
+                                  <div class="ai-improve-run-meta">
+                                    <strong>{{ run.base_rows }} -> {{ run.augmented_rows }}</strong>
+                                    <small>{{ formatRunStatusLabel(run.status) }}</small>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </section>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        } @else {
+          <div class="admin-placeholder">
+            <p>Page d’accueil admin. Sélectionnez un module.</p>
+          </div>
+        }
+
+      </section>
+    </section>
+    
+  } @else if (connected && userRole === 'sector_manager') {
+    
+    <section class="admin-dashboard workspace-manager reveal-on-scroll reveal-up is-visible">
+      <aside class="admin-sidebar workspace-sidebar workspace-sidebar--manager reveal-on-scroll reveal-left reveal-delay-1 is-visible">
+        <div class="sidebar-header">
+          <h2>{{ userSectorName || 'Mon secteur' }} Group</h2>
+          <h4>{{ userFirstName }} {{ userLastName }}</h4>
+          <p>Secteur : {{ userSectorName }}</p>
+          <p>Espace Responsable de secteur </p>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="sidebar-link" [class.active]="userSection === 'home'" type="button" (click)="selectUserSection('home')">Accueil</button>
+          <button class="sidebar-link" [class.active]="userSection === 'profile'" type="button" (click)="selectUserSection('profile')">Profil</button>
+          <button class="sidebar-link" [class.active]="userSection === 'sector_users'" type="button" (click)="selectUserSection('sector_users')">Utilisateurs de mon secteur</button>
+          <button class="sidebar-link" [class.active]="userSection === 'evaluations'" type="button" (click)="selectUserSection('evaluations')">Évaluations</button>
+          <button class="sidebar-link sidebar-link--logout" type="button" (click)="logout()">Déconnexion</button>
+        </nav>
+      </aside>
+      
+
+      <section class="admin-content workspace-content workspace-content--manager reveal-on-scroll reveal-right reveal-delay-2 is-visible">
+        <div class="dashboard-header workspace-header workspace-header--manager">
+          <img src="/logo.png" alt="Logo Poulina" class="dashboard-logo">
+          <span class="dashboard-badge dashboard-badge--manager">Responsable secteur</span>
+        </div>
+
+        @if (userSection === 'home') {
+          <section class="dashboard-summary user-home-dashboard">
+            <div class="user-home-hero">
+              <div class="user-home-copy">
+                <span class="section-tag">Espace responsable de secteur</span>
+                <h1>Bienvenue, {{ userFirstName }} {{ userLastName }}</h1>
+                <p>
+                  Pilotez le secteur <strong>{{ userSectorName || '—' }}</strong>, consultez les utilisateurs
+                  rattachés et suivez rapidement les évaluations des filiales de votre groupe.
+                </p>
+                <div class="user-home-actions">
+                  <button class="btn-primary" type="button" (click)="selectUserSection('sector_users')">Voir les utilisateurs</button>
+                  <button class="btn-secondary" type="button" (click)="selectUserSection('evaluations')">Voir les évaluations</button>
+                </div>
+              </div>
+              <div class="user-home-visual">
+                <img [src]="userHomeImageSrc" [alt]="userHomeImageAlt">
+              </div>
+            </div>
+
+            <div class="dashboard-cards">
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3L20 7V17L12 21L4 17V7L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M12 21V12" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M20 7L12 12L4 7" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                </span>
+                <strong>{{ userSectorName || '—' }}</strong>
+                <span>Votre secteur</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M5 19C5 16.7909 8.13401 15 12 15C15.866 15 19 16.7909 19 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <strong>{{ sectorUsers.length }}</strong>
+                <span>Utilisateurs du secteur</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M8 6H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M8 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M8 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <circle cx="5" cy="6" r="1.4" fill="currentColor"/>
+                    <circle cx="5" cy="12" r="1.4" fill="currentColor"/>
+                    <circle cx="5" cy="18" r="1.4" fill="currentColor"/>
+                  </svg>
+                </span>
+                <strong>{{ filteredEvaluations.length }}</strong>
+                <span>Évaluations disponibles</span>
+              </article>
+            </div>
+            <div class="dashboard-welcome">
+              <h2>Vue d’ensemble du secteur</h2>
+              <p>Accédez rapidement à la liste des utilisateurs du secteur et aux évaluations liées aux filiales de votre périmètre.</p>
+            </div>
+          </section>
+        } @else if (userSection === 'profile') {
+          <div class="user-profile">
+            <h1>Mon profil</h1>
+            @if (!isProfileEditing) {
+              <div class="profile-card">
+                <div class="profile-avatar">
+                  <img [src]="userAvatar || '/avatar.png'" alt="Avatar" class="avatar-image">
+                </div>
+                <p><strong>Nom :</strong> {{ userFirstName }} {{ userLastName }}</p>
+                <p><strong>Email :</strong> {{ userEmail || '—' }}</p>
+                <p><strong>Secteur :</strong> {{ userSectorName || '—' }}</p>
+                <button class="btn-primary" type="button" (click)="editProfile()">Modifier mes informations</button>
+                <button class="btn-secondary" type="button" (click)="showPasswordForm = !showPasswordForm">Changer le mot de passe</button>
+              </div>
+              @if (showPasswordForm) {
+                <div class="profile-card">
+                  <h3>Changer le mot de passe</h3>
+                  <div class="form-group">
+                    <label for="currentPassword">Mot de passe actuel</label>
+                    <input id="currentPassword" type="password" [(ngModel)]="currentPassword" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input id="newPassword" type="password" [(ngModel)]="newPassword" required>
+                  </div>
+                  <button class="btn-primary" type="button" (click)="changePassword()" [disabled]="passwordSaving">{{ passwordSaving ? 'Enregistrement...' : 'Enregistrer le mot de passe' }}</button>
+                  <button class="btn-secondary" type="button" (click)="showPasswordForm = false" [disabled]="passwordSaving">Annuler</button>
+                  @if (passwordError) {
+                    <p class="error">{{ passwordError }}</p>
+                  }
+                  @if (passwordSuccess) {
+                    <p class="success">{{ passwordSuccess }}</p>
+                  }
+                </div>
+              }
+            } @else {
+              <div class="profile-card">
+                <h3>Modifier mes informations</h3>
+                <div class="profile-avatar">
+                  <img [src]="userAvatar || '/avatar.png'" alt="Avatar" class="avatar-image">
+                </div>
+                <div class="form-group">
+                  <label for="avatar">Avatar</label>
+                  <input id="avatar" type="file" accept="image/*" (change)="onAvatarChange($event)">
+                </div>
+                <div class="form-group">
+                  <label for="firstName">Prénom</label>
+                  <input id="firstName" type="text" [(ngModel)]="userFirstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" type="text" [(ngModel)]="userLastName" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input id="email" type="email" [(ngModel)]="userEmail" required>
+                </div>
+                <button class="btn-primary" type="button" (click)="saveProfile()" [disabled]="profileSaving">{{ profileSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                <button class="btn-secondary" type="button" (click)="cancelProfileEdit()" [disabled]="profileSaving">Annuler</button>
+                @if (profileError) {
+                  <p class="error">{{ profileError }}</p>
+                }
+                @if (profileSuccess) {
+                  <p class="success">{{ profileSuccess }}</p>
+                 }
+               </div>
+             }
+           </div>
+           
+           } @else if (userSection === 'sector_users') {
+          <section class="user-management">
+            <h1>Les utilisateurs de {{ userSectorName || 'mon secteur' }} Group</h1>
+            <div class="branch-actions">
+              <div class="branch-search">
+                <label for="sectorUserSearch">Rechercher un utilisateur</label>
+                <input id="sectorUserSearch" type="text" [(ngModel)]="sectorUserSearch" placeholder="Nom ou prénom">
+              </div>
+            </div>
+            <div class="branch-list">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Filiale</th>
+                    <th>Secteur</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (user of filteredSectorUsers; track user.id) {
+                    <tr>
+                      <td>{{ user.last_name }}</td>
+                      <td>{{ user.first_name }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.branch__name || '—' }}</td>
+                      <td>{{ user.branch__sector__name || '—' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+          } @else if (userSection === 'evaluations') {
+
+            <section class="evaluations-management">
+              @if (isEvaluationDetailMode && userRole === 'sector_manager') {
+                <div class="evaluation-detail-view">
+                  <div class="evaluation-detail-toolbar">
+                    <button class="btn-ghost" type="button" (click)="backToList()">← Retour à la liste</button>
+                    <h2 class="evaluation-detail-title">{{ selectedEvaluationTitle }}</h2>
+                    <button class="btn-secondary" type="button" (click)="exportEvaluationDetailPdf()" [disabled]="selectedEvaluation.length === 0">Exporter ce détail en PDF</button>
+                  </div>
+
+                  @if (evaluationError) {
+                    <p class="error">{{ evaluationError }}</p>
+                  }
+                  @if (evaluationSaveMessage) {
+                    <p class="success">{{ evaluationSaveMessage }}</p>
+                  }
+                  @if (evaluationSaveError) {
+                    <p class="error">{{ evaluationSaveError }}</p>
+                  }
+                  @if (selectedEvaluation.length === 0) {
+                    <div class="admin-placeholder">
+                      <p>Aucune donnée d'évaluation disponible.</p>
+                    </div>
+                  }
+
+                  @if (selectedEvaluation.length > 0) {
+                    <div class="evaluation-detail-meta">
+                      <div class="evaluation-detail-meta-card">
+                        <span class="evaluation-detail-meta-label">Filiale</span>
+                        <strong>{{ selectedEvaluationMeta.filiale }}</strong>
+                      </div>
+                      <div class="evaluation-detail-meta-card">
+                        <span class="evaluation-detail-meta-label">Secteur</span>
+                        <strong>{{ selectedEvaluationMeta.secteur }}</strong>
+                      </div>
+                      <div class="evaluation-detail-meta-card">
+                        <span class="evaluation-detail-meta-label">Utilisateur</span>
+                        <strong>{{ selectedEvaluationMeta.user }}</strong>
+                      </div>
+                      <div class="evaluation-detail-meta-card">
+                        <span class="evaluation-detail-meta-label">Responsable de secteur</span>
+                        <strong>{{ selectedEvaluationMeta.manager }}</strong>
+                      </div>
+                    </div>
+
+                    <div class="evaluation-axis-groups">
+                      @for (group of groupedSelectedEvaluations; track group.axis) {
+                        <section class="evaluation-axis-group">
+                          <div class="evaluation-axis-group-header">
+                            <div>
+                              <span class="evaluation-axis-group-label">Axe</span>
+                              <h3>{{ group.axis }}</h3>
+                            </div>
+                            <div class="evaluation-axis-group-stats">
+                              <span>Moyenne : <strong>{{ group.rows[0].moyenne_axe ?? '—' }}</strong></span>
+                              <span>Conformité : <strong>{{ group.rows[0].conformite_axe ?? '—' }}%</strong></span>
+                            </div>
+                          </div>
+
+                          <div class="evaluation-table-wrapper">
+                            <table class="evaluation-table evaluation-detail-table">
+                              <thead>
+                                <tr>
+                                  <th>Critères</th>
+                                  <th>Note /20</th>
+                                  <th>Pondération</th>
+                                  <th>Observations</th>
+                                  <th>Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @for (evaluation of group.rows; track evaluation.id || $index) {
+                                  <tr>
+                                    <td class="evaluation-criteria-cell">{{ evaluation.criteres || '—' }}</td>
+                                    <td>
+                                      @if (evaluation.editing) {
+                                        <input class="evaluation-input" type="text" [(ngModel)]="evaluation.note" placeholder="Note /20">
+                                      } @else {
+                                        {{ evaluation.note || '—' }}
+                                      }
+                                    </td>
+                                    <td>{{ evaluation.ponderation || '—' }}</td>
+                                    <td>
+                                      @if (evaluation.editing) {
+                                        <textarea class="evaluation-textarea" [(ngModel)]="evaluation.observations" placeholder="Observations"></textarea>
+                                      } @else {
+                                        <span class="evaluation-observations-cell">{{ evaluation.observations || '—' }}</span>
+                                      }
+                                    </td>
+                                    <td class="evaluation-row-actions">
+                                      @if (evaluation.editing) {
+                                        <button class="btn-primary" type="button" (click)="saveEvaluationRow(evaluation)" [disabled]="evaluation.isSaving">{{ evaluation.isSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                                        <button class="btn-ghost" type="button" (click)="cancelEditEvaluation(evaluation)" [disabled]="evaluation.isSaving">Annuler</button>
+                                      } @else {
+                                        <button class="btn-secondary" type="button" (click)="editEvaluationRow(evaluation)" [disabled]="evaluation.isDeleting">Modifier</button>
+                                      }
+                                    </td>
+                                  </tr>
+                                }
+                              </tbody>
+                            </table>
+                          </div>
+                        </section>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="evaluation-dashboard">
+                  <div class="evaluation-import-panel">
+                    <div class="evaluation-import-intro">
+                      <span class="evaluation-section-badge">Liste</span>
+                      <h2>Évaluations de mon secteur par utilisateur</h2>
+                      <p>Consultez les évaluations de votre secteur utilisateur par utilisateur, ouvrez le détail de chacune et modifiez directement les notes et observations.</p>
+                      <div class="evaluation-toolbar">
+                        <div class="evaluation-filters">
+                          <label>
+                            <span class="filter-label">Recherche</span>
+                            <input type="text" [(ngModel)]="evaluationSearch" placeholder="Utilisateur, date ou filiale">
+                          </label>
+                          <label>
+                            <span class="filter-label">Date</span>
+                            <select [(ngModel)]="evaluationDateFilter">
+                              <option [ngValue]="''">Toutes</option>
+                              @for (date of evaluationDates; track date) {
+                                <option [ngValue]="date">{{ date }}</option>
+                              }
+                            </select>
+                          </label>
+                          <label>
+                            <span class="filter-label">Utilisateur</span>
+                            <select [(ngModel)]="evaluationUserFilter">
+                              <option [ngValue]="null">Tous</option>
+                              @for (user of users; track user.id) {
+                                <option [ngValue]="user.id">{{ user.first_name }} {{ user.last_name }}</option>
+                              }
+                            </select>
+                          </label>
+                        </div>
+                        <div class="evaluation-actions">
+                          <button class="btn-secondary" type="button" (click)="exportEvaluationPdf()" [disabled]="filteredEvaluations.length === 0">Exporter PDF</button>
+                          <button class="btn-primary" type="button" (click)="loadEvaluations()" [disabled]="isEvaluationLoading">{{ isEvaluationLoading ? 'Chargement...' : 'Actualiser' }}</button>
+                        </div>
+                      </div>
+                      @if (evaluationSuccess) {
+                        <p class="success">{{ evaluationSuccess }}</p>
+                      }
+                      @if (evaluationError) {
+                        <p class="error">{{ evaluationError }}</p>
+                      }
+                      @if (evaluationSaveMessage) {
+                        <p class="success">{{ evaluationSaveMessage }}</p>
+                      }
+                      @if (evaluationSaveError) {
+                        <p class="error">{{ evaluationSaveError }}</p>
+                      }
+                    </div>
+                  </div>
+
+                  @if (filteredEvaluations.length === 0) {
+                    <div class="admin-placeholder">
+                      <p>Aucune évaluation enregistrée dans votre secteur.</p>
+                    </div>
+                  }
+
+                  @if (filteredEvaluations.length > 0) {
+                    <div class="evaluation-table-wrapper">
+                      <table class="evaluation-table evaluation-summary-table">
+                        <thead>
+                          <tr>
+                            <th>Utilisateur</th>
+                            <th>Date</th>
+                            <th>Filiale</th>
+                            <th>Secteur</th>
+                            <th>Note moyenne /20</th>
+                            <th>Conformité globale</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (evaluation of filteredEvaluations; track evaluation.id) {
+                            <tr>
+                              <td>{{ evaluation.user_name || '—' }}</td>
+                              <td>{{ evaluation.periode || '—' }}</td>
+                              <td>{{ evaluation.filiale_name || '—' }}</td>
+                              <td>{{ evaluation.secteur_name || '—' }}</td>
+                              <td>{{ evaluation.note_moyenne }}</td>
+                              <td>
+                                @if (evaluation.conformite_globale !== '—' && evaluation.conformite_globale !== undefined && evaluation.conformite_globale !== null) {
+                                  <span class="conformite-cell"
+                                        [class.high]="getConformiteNumber(evaluation) >= 80"
+                                        [class.medium]="getConformiteNumber(evaluation) >= 50 && getConformiteNumber(evaluation) < 80"
+                                        [class.low]="getConformiteNumber(evaluation) > 0 && getConformiteNumber(evaluation) < 50">
+                                    {{ evaluation.conformite_globale }}%
+                                  </span>
+                                } @else {
+                                  <span class="muted">—</span>
+                                }
+                              </td>
+                              <td class="evaluation-summary-actions">
+                                <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetail(evaluation)">Détail</button>
+                                <button class="btn-primary btn-sm" type="button" (click)="editEvaluationSession(evaluation)">Modifier</button>
+                                <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetailAndExportPdf(evaluation)">PDF</button>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                </div>
+              }
+            </section>
+          }
+        </section>
+      </section>
+  } @else if (connected && userRole === 'user') {
+    
+    <section class="admin-dashboard workspace-user reveal-on-scroll reveal-up is-visible">
+      <aside class="admin-sidebar workspace-sidebar workspace-sidebar--user reveal-on-scroll reveal-left reveal-delay-1 is-visible">
+        <div class="sidebar-header">
+          <h2>{{ userSectorName || 'Mon secteur' }} Group</h2>
+          <h4>Secteur : {{ userSectorName }}</h4>
+          <h4>Filiale : {{ userBranchName }}</h4>
+          <p>Espace utilisateur</p>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="sidebar-link" [class.active]="userSection === 'home'" type="button" (click)="selectUserSection('home')">Accueil</button>
+          <button class="sidebar-link" [class.active]="userSection === 'profile'" type="button" (click)="selectUserSection('profile')">Profil</button>
+          <button class="sidebar-link" [class.active]="userSection === 'evaluations'" type="button" (click)="selectUserSection('evaluations')">Évaluations</button>
+          <button class="sidebar-link sidebar-link--logout" type="button" (click)="logout()">Déconnexion</button>
+        </nav>
+      </aside>
+      
+
+      <section class="admin-content workspace-content workspace-content--user reveal-on-scroll reveal-right reveal-delay-2 is-visible">
+        <div class="dashboard-header workspace-header workspace-header--user">
+          <img src="/logo.png" alt="Logo Poulina" class="dashboard-logo">
+          <span class="dashboard-badge dashboard-badge--user">Utilisateur</span>
+        </div>
+
+        @if (userSection === 'home') {
+          <section class="dashboard-summary user-home-dashboard">
+            <div class="user-home-hero">
+              <div class="user-home-copy">
+                <span class="section-tag">Espace utilisateur</span>
+                <h1>Bienvenue, {{ userFirstName }} {{ userLastName }}</h1>
+                <p>
+                  Suivez vos évaluations, consultez votre profil et gardez une vue claire sur
+                  votre secteur <strong>{{ userSectorName || '—' }}</strong> et votre filiale
+                  <strong>{{ userBranchName || '—' }}</strong>.
+                </p>
+                <div class="user-home-actions">
+                  <button class="btn-primary" type="button" (click)="selectUserSection('evaluations')">Voir mes évaluations</button>
+                  <button class="btn-secondary" type="button" (click)="selectUserSection('profile')">Voir mon profil</button>
+                </div>
+              </div>
+              <div class="user-home-visual">
+                <img
+                  [src]="userHomeImageSrc"
+                  [alt]="userHomeImageAlt"
+                >
+              </div>
+            </div>
+
+            <div class="dashboard-cards">
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3L20 7V17L12 21L4 17V7L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M12 21V12" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M20 7L12 12L4 7" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                </span>
+                <strong>{{ userSectorName || '—' }}</strong>
+                <span>Votre secteur</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 10L12 4L20 10V19H4V10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 19V13H15V19" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <strong>{{ userBranchName || '—' }}</strong>
+                <span>Votre filiale</span>
+              </article>
+              <article class="dashboard-card dashboard-card--iconic">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M8 6H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M8 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M8 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <circle cx="5" cy="6" r="1.4" fill="currentColor"/>
+                    <circle cx="5" cy="12" r="1.4" fill="currentColor"/>
+                    <circle cx="5" cy="18" r="1.4" fill="currentColor"/>
+                  </svg>
+                </span>
+                <strong>{{ userEvaluationStats.total }}</strong>
+                <span>Mes évaluations</span>
+              </article>
+            </div>
+            <div class="dashboard-welcome">
+              <h2>Tableau de bord personnel</h2>
+              <p>Retrouvez rapidement votre profil, vos évaluations et les indicateurs clés de votre espace utilisateur dans une interface claire et moderne.</p>
+            </div>
+          </section>
+        } @else if (userSection === 'profile') {
+          <div class="user-profile">
+            <h1>Mon profil</h1>
+            @if (!isProfileEditing) {
+              <div class="profile-card">
+                <div class="profile-avatar">
+                  <img [src]="userAvatar || '/avatar.png'" alt="Avatar" class="avatar-image">
+                </div>
+                <p><strong>Nom :</strong> {{ userFirstName }} {{ userLastName }}</p>
+                <p><strong>Email :</strong> {{ userEmail || '—' }}</p>
+                <p><strong>Secteur :</strong> {{ userSectorName || '—' }}</p>
+                <button class="btn-primary" type="button" (click)="editProfile()">Modifier mes informations</button>
+                <button class="btn-secondary" type="button" (click)="showPasswordForm = !showPasswordForm">Changer le mot de passe</button>
+              </div>
+              @if (showPasswordForm) {
+                <div class="profile-card">
+                  <h3>Changer le mot de passe</h3>
+                  <div class="form-group">
+                    <label for="currentPassword">Mot de passe actuel</label>
+                    <input id="currentPassword" type="password" [(ngModel)]="currentPassword" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input id="newPassword" type="password" [(ngModel)]="newPassword" required>
+                  </div>
+                  <button class="btn-primary" type="button" (click)="changePassword()" [disabled]="passwordSaving">{{ passwordSaving ? 'Enregistrement...' : 'Enregistrer le mot de passe' }}</button>
+                  <button class="btn-secondary" type="button" (click)="showPasswordForm = false" [disabled]="passwordSaving">Annuler</button>
+                  @if (passwordError) {
+                    <p class="error">{{ passwordError }}</p>
+                  }
+                  @if (passwordSuccess) {
+                    <p class="success">{{ passwordSuccess }}</p>
+                  }
+                </div>
+              }
+            } @else {
+              <div class="profile-card">
+                <h3>Modifier mes informations</h3>
+                <div class="profile-avatar">
+                  <img [src]="userAvatar || '/avatar.png'" alt="Avatar" class="avatar-image">
+                </div>
+                <div class="form-group">
+                  <label for="avatar">Avatar</label>
+                  <input id="avatar" type="file" accept="image/*" (change)="onAvatarChange($event)">
+                </div>
+                <div class="form-group">
+                  <label for="firstName">Prénom</label>
+                  <input id="firstName" type="text" [(ngModel)]="userFirstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" type="text" [(ngModel)]="userLastName" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input id="email" type="email" [(ngModel)]="userEmail" required>
+                </div>
+                <button class="btn-primary" type="button" (click)="saveProfile()" [disabled]="profileSaving">{{ profileSaving ? 'Enregistrement...' : 'Enregistrer' }}</button>
+                <button class="btn-secondary" type="button" (click)="cancelProfileEdit()" [disabled]="profileSaving">Annuler</button>
+                @if (profileError) {
+                  <p class="error">{{ profileError }}</p>
+                }
+                @if (profileSuccess) {
+                  <p class="success">{{ profileSuccess }}</p>
+                }
+              </div>
+            }
+          </div>
+          
+       } @else if (userSection === 'evaluations') {
+
+            <section class="evaluations-management">
+              <h1>Mes évaluations</h1>
+
+              @if (isEvaluationFormMode) {
+                <div class="iso-checklist-form-wrap">
+                  <div class="chk-back-row">
+                    <button class="btn-ghost btn-sm" type="button" (click)="cancelChecklistForm()">
+                      ← Retour à la liste
+                    </button>
+                  </div>
+
+                  <div class="chk-card">
+                    <h2 class="chk-main-title">FORMULAIRE DE SAISIE DES NOTES DES AXES</h2>
+
+                    <div class="chk-header">
+                      <div class="chk-header-left">
+                        <h3 class="chk-subtitle">Nouvelle évaluation — Checklist Contrôle Laboratoire</h3>
+                        <div class="chk-meta-row">
+                          <div class="chk-meta">
+                            <label>Mois</label>
+                            <input type="text" [(ngModel)]="checklistMonth" class="chk-meta-input" placeholder="Mois">
+                          </div>
+                          <div class="chk-meta">
+                            <label>Année</label>
+                            <input type="text" [(ngModel)]="checklistYear" class="chk-meta-input" placeholder="Année">
+                          </div>
+                          <div class="chk-meta">
+                            <label>Filiale</label>
+                            <input type="text" [(ngModel)]="checklistLaboratoire" class="chk-meta-input" placeholder="Filiale">
+                          </div>
+                          <div class="chk-meta">
+                            <label>Utilisateur</label>
+                            <input type="text" [(ngModel)]="checklistAuditeur" class="chk-meta-input" placeholder="Utilisateur">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chk-score-box">
+                        <div class="chk-score-total">{{ checklistMaxPossible > 0 ? (checklistGlobalScore ?? 0).toFixed(0) : '—' }} / {{ checklistMaxPossible || 200 }}</div>
+                        <div class="chk-score-label">Total</div>
+                        <div class="chk-conform">
+                          Conformité
+                          <strong>{{ checklistMaxPossible > 0 ? (((checklistGlobalScore ?? 0) / checklistMaxPossible) * 100).toFixed(1) : '0.0' }} %</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (evaluationSaveMessage) {
+                      <p class="success">{{ evaluationSaveMessage }}</p>
+                    }
+                    @if (evaluationSaveError) {
+                      <p class="error">{{ evaluationSaveError }}</p>
+                    }
+                    <div class="chk-table-wrap">
+                      <table class="chk-table">
+                        <thead>
+                          <tr>
+                            <th class="chk-col-axe">AXE D'ÉVALUATION</th>
+                            <th class="chk-col-crit">CRITÈRES D'ÉVALUATION (ISO 17025)</th>
+                            <th class="chk-col-note">NOTE /20</th>
+                            <th class="chk-col-pond">POND.</th>
+                            <th class="chk-col-obs">OBSERVATIONS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (axis of isoChecklistData; track axis.id) {
+                            <tr class="chk-axe-title-row">
+                              <td colspan="5">
+                                <span class="chk-axe-badge">{{ axis.id }}</span>
+                                <span class="chk-axe-name">{{ axis.title }}</span>
+                              </td>
+                            </tr>
+                            @for (c of axis.criteria; track $index) {
+                              <tr>
+                                <td></td>
+                                <td class="chk-crit-cell">
+                                  <span class="chk-bullet">•</span> {{ c.text }}
+                                </td>
+                                <td class="chk-center">
+                                  <input type="number" min="0" max="20" step="0.5" class="chk-note-input"
+                                         placeholder="—"
+                                         [(ngModel)]="checklistFormData[axis.id - 1][$index].note">
+                                </td>
+                                <td class="chk-center">
+                                  <input type="text" class="chk-pond-input" [value]="c.weight" readonly tabindex="-1">
+                                </td>
+                                <td>
+                                  <textarea class="chk-obs-input" rows="1" placeholder="Observations…"
+                                            [(ngModel)]="checklistFormData[axis.id - 1][$index].observation"></textarea>
+                                </td>
+                              </tr>
+                            }
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="chk-footer-actions">
+                      <button type="button" class="chk-btn-save" (click)="saveChecklistForm()">Enregistrer</button>
+                      <button type="button" class="chk-btn-pdf" (click)="saveChecklistFormAndPdf()">Enregistrer et PDF</button>
+                      <button type="button" class="chk-btn-cancel" (click)="cancelChecklistForm()">Annuler</button>
+                    </div>
+                  </div>
+                </div>
+              } @else if (isEvaluationDetailMode) {
+                <div class="detail-mode-wrap">
+                  <div class="chk-back-row">
+                    <button class="btn-ghost btn-sm" type="button" (click)="backToList()">← Retour à la liste</button>
+                  </div>
+
+                  <div class="chk-card">
+                    <h2 class="chk-main-title">{{ selectedEvaluationTitle }}</h2>
+
+                    <div class="chk-header">
+                      <div class="chk-header-left">
+                        <div class="chk-meta-row">
+                          <div class="chk-meta">
+                            <label>Période</label>
+                            <span class="chk-meta-readonly">{{ selectedEvaluation[0]?.month }} {{ selectedEvaluation[0]?.year }}</span>
+                          </div>
+                          <div class="chk-meta">
+                            <label>Filiale</label>
+                            <span class="chk-meta-readonly">{{ selectedEvaluation[0]?.filiale_name || selectedEvaluation[0]?.filiale || '—' }}</span>
+                          </div>
+                          <div class="chk-meta">
+                            <label>Laboratoire</label>
+                            <span class="chk-meta-readonly">{{ selectedEvaluation[0]?.laboratoire_name || selectedEvaluation[0]?.laboratoire || '—' }}</span>
+                          </div>
+                          <div class="chk-meta">
+                            <label>Utilisateur</label>
+                            <span class="chk-meta-readonly">{{ selectedEvaluation[0]?.user_name || '—' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chk-score-box">
+                        <div class="chk-score-total">{{ selectedEvaluationSummary.total }} / {{ selectedEvaluationSummary.max }}</div>
+                        <div class="chk-score-label">Total pondéré</div>
+                        <div class="chk-conform">
+                          Conformité
+                          <strong>{{ selectedEvaluationSummary.conformite }} %</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (evaluationSaveMessage) { <p class="success">{{ evaluationSaveMessage }}</p> }
+                    @if (evaluationSaveError) { <p class="error">{{ evaluationSaveError }}</p> }
+
+                    <div class="chk-table-wrap">
+                      <table class="chk-table">
+                        <thead>
+                          <tr>
+                            <th class="chk-col-axe">AXE D'ÉVALUATION</th>
+                            <th class="chk-col-crit">CRITÈRES D'ÉVALUATION (ISO 17025)</th>
+                            <th class="chk-col-note">NOTE /20</th>
+                            <th class="chk-col-pond">POND.</th>
+                            <th class="chk-col-obs">OBSERVATIONS</th>
+                            <th class="chk-col-act">ACTIONS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (group of groupedSelectedEvaluations; track group.axis) {
+                            <tr class="chk-axe-title-row">
+                              <td colspan="6">
+                                <span class="chk-axe-badge">{{ $index + 1 }}</span>
+                                <span class="chk-axe-name">{{ group.axis }}</span>
+                              </td>
+                            </tr>
+                            @for (row of group.rows; track row.id || row) {
+                              <tr>
+                                <td></td>
+                                <td class="chk-crit-cell">
+                                  <span class="chk-bullet">•</span> {{ row.criteres }}
+                                </td>
+                                <td class="chk-center">
+                                  @if (row.editing) {
+                                    <input type="number" min="0" max="20" step="0.5" class="chk-note-input" [(ngModel)]="row.note">
+                                  } @else {
+                                    <span class="chk-readonly">{{ row.note || '—' }}</span>
+                                  }
+                                </td>
+                                <td class="chk-center">
+                                  <span class="chk-readonly">{{ row.ponderation || '—' }}</span>
+                                </td>
+                                <td>
+                                  @if (row.editing) {
+                                    <textarea class="chk-obs-input" rows="1" [(ngModel)]="row.observations"></textarea>
+                                  } @else {
+                                    <span class="chk-readonly multiline">{{ row.observations || '—' }}</span>
+                                  }
+                                </td>
+                                <td class="chk-center">
+                                  @if (row.editing) {
+                                    <button class="chk-btn-xs chk-btn-save-xs" type="button" (click)="saveEvaluationRow(row)">💾</button>
+                                    <button class="chk-btn-xs chk-btn-cancel-xs" type="button" (click)="row.editing=false">✖</button>
+                                  } @else {
+                                    <button class="chk-btn-xs chk-btn-edit-xs" type="button" (click)="editEvaluationRowUser(row)">✏️</button>
+                                    <button class="chk-btn-xs chk-btn-del-xs" type="button" (click)="deleteEvaluationRowUser(row)">🗑️</button>
+                                  }
+                                </td>
+                              </tr>
+                            }
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="chk-footer-actions">
+                      <button type="button" class="chk-btn-pdf" (click)="exportEvaluationDetailPdf()">Exporter PDF</button>
+                      <button type="button" class="chk-btn-cancel" (click)="backToList()">Fermer</button>
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <div class="user-evaluations-view">
+                  <div class="evaluation-toolbar">
+                    <div class="evaluation-search">
+                      <label for="userEvaluationSearch">Rechercher</label>
+                      <input id="userEvaluationSearch" type="text" [(ngModel)]="userEvaluationSearch" placeholder="Rechercher par date">
+                    </div>
+                    <div class="evaluation-actions">
+                      <button class="btn-primary" type="button" (click)="addEvaluationForUser()">Ajouter une évaluation</button>
+                      <button class="btn-secondary" type="button" (click)="exportUserEvaluationPdf()" [disabled]="userEvaluationList.length === 0">Exporter PDF</button>
+                      <button class="btn-primary" type="button" (click)="loadUserEvaluationList()" [disabled]="userEvaluationListLoading">{{ userEvaluationListLoading ? 'Chargement...' : 'Actualiser' }}</button>
+                    </div>
+                  </div>
+
+                  @if (userEvaluationListLoading) { <p class="success">Chargement…</p> }
+                  @if (evaluationError) { <p class="error">{{ evaluationError }}</p> }
+                  @if (evaluationSuccess) { <p class="success">{{ evaluationSuccess }}</p> }
+                  @if (evaluationSaveMessage) { <p class="success">{{ evaluationSaveMessage }}</p> }
+
+                  @if (userEvaluationList.length > 0) {
+                    <div class="evaluation-stats">
+                      <div class="stat-card stat-card--iconic">
+                        <span class="stat-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M8 6H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M8 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M8 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <circle cx="5" cy="6" r="1.4" fill="currentColor"/>
+                            <circle cx="5" cy="12" r="1.4" fill="currentColor"/>
+                            <circle cx="5" cy="18" r="1.4" fill="currentColor"/>
+                          </svg>
+                        </span>
+                        <span class="stat-value">{{ userEvaluationStats.total }}</span>
+                        <span class="stat-label">Évaluations</span>
+                      </div>
+                      <div class="stat-card stat-card--iconic">
+                        <span class="stat-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 4L14.5 9.2L20 10L16 13.9L17 19.5L12 16.8L7 19.5L8 13.9L4 10L9.5 9.2L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        <span class="stat-value">{{ userEvaluationStats.bestNote ?? '—' }}</span>
+                        <span class="stat-label">Meilleure note</span>
+                      </div>
+                      <div class="stat-card stat-card--iconic">
+                        <span class="stat-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 20V6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M7 15L12 20L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 4H18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                          </svg>
+                        </span>
+                        <span class="stat-value">{{ userEvaluationStats.minNote ?? '—' }}</span>
+                        <span class="stat-label">Note minimum</span>
+                      </div>
+                    </div>
+                  }
+
+                  @if (userEvaluationList.length === 0 && !userEvaluationListLoading) {
+                    <div class="admin-placeholder">
+                      <p>Aucune évaluation enregistrée. Cliquez sur "Ajouter une évaluation" pour commencer.</p>
+                    </div>
+                  }
+
+                  @if (userEvaluationList.length > 0) {
+                    <div class="evaluation-list-container">
+                      <table class="evaluation-table evaluation-summary-table chk-summary-table">
+                        <thead>
+                          <tr>
+                            <th>Date (période)</th>
+                            <th>Filiale</th>
+                            <th>Utilisateur</th>
+                            <th>Note moyenne</th>
+                            <th>Conformité globale</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (ev of filteredUserEvaluations; track ev.id) {
+                            <tr class="evaluation-summary-row">
+                              <td><strong>{{ ev.periode }}</strong></td>
+                              <td>{{ ev.filiale_name }}</td>
+                              <td>{{ ev.user_name }}</td>
+                              <td>
+                                @if (ev.note_moyenne !== '—' && ev.note_moyenne !== undefined && ev.note_moyenne !== null) {
+                                  <span class="note-cell">{{ ev.note_moyenne }}</span>
+                                } @else {
+                                  <span class="muted">—</span>
+                                }
+                              </td>
+                              <td>
+                                @if (ev.conformite_globale !== '—' && ev.conformite_globale !== undefined && ev.conformite_globale !== null) {
+                                  <span class="conformite-cell"
+                                        [class.high]="getConformiteNumber(ev) >= 80"
+                                        [class.medium]="getConformiteNumber(ev) >= 50 && getConformiteNumber(ev) < 80"
+                                        [class.low]="getConformiteNumber(ev) > 0 && getConformiteNumber(ev) < 50">
+                                    {{ ev.conformite_globale }}%
+                                  </span>
+                                } @else {
+                                  <span class="muted">—</span>
+                                }
+                              </td>
+                              <td class="evaluation-summary-actions">
+                                <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetail(ev)">Détail</button>
+                                 <button class="btn-secondary btn-sm" type="button" (click)="viewEvaluationDetailAndExportPdf(ev)">PDF</button>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                </div>
+              }
+
+            </section>
+        }
+      </section>
+    </section>
+  } @else {
+    <section class="hero-section reveal-on-scroll reveal-up">
+      <header class="topbar reveal-on-scroll reveal-up reveal-delay-1">
+        <div class="brand reveal-on-scroll reveal-left reveal-delay-1">
+          <img src="/logo.png" alt="Logo Poulina" class="brand-logo">
+          <div>
+            <p class="brand-name">Poulina Quality Labs</p>
+            <p class="brand-caption">Gestion des laboratoires et contrôle qualité</p>
+          </div>
+        </div>
+
+        <a href="#access" class="btn-secondary">Connexion</a>
+      </header>
+
+      <div class="hero-grid">
+        <div class="hero-copy reveal-on-scroll reveal-left reveal-delay-2">
+          <span class="section-tag">Espace qualité</span>
+          <h1>La solution Poulina pour piloter les laboratoires et les checklists qualité</h1>
+          <p class="hero-text">
+            Une application centralisée pour suivre les analyses, standardiser les contrôles
+            et donner une vision claire des actions qualité dans les différents secteurs.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#access" class="btn-primary">Accéder à la plateforme</a>
+            <button type="button" class="btn-success" (click)="openRegister()">Créer un compte</button>
+          </div>
+
+          <div class="hero-stats">
+            <article class="hero-stat-card">
+              <span class="card-icon card-icon--hero" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 10L12 4L20 10V19H4V10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M9 19V13H15V19" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <strong>Une plateforme</strong>
+              <span>pour tous les laboratoires</span>
+            </article>
+            <article class="hero-stat-card">
+              <span class="card-icon card-icon--hero" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M8 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M8 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <circle cx="5" cy="6" r="1.4" fill="currentColor"/>
+                  <circle cx="5" cy="12" r="1.4" fill="currentColor"/>
+                  <circle cx="5" cy="18" r="1.4" fill="currentColor"/>
+                </svg>
+              </span>
+              <strong>Checklist</strong>
+              <span>normalisées et suivies</span>
+            </article>
+            <article class="hero-stat-card">
+              <span class="card-icon card-icon--hero" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 15L10 10L13 13L19 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M19 11V7H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <strong>Visibilité</strong>
+              <span>sur les points critiques</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal-on-scroll reveal-right reveal-delay-3">
+          <img src="/labo.jpg" alt="Laboratoire Poulina et contrôle qualité">
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section why-section reveal-on-scroll reveal-up">
+      <div class="section-heading reveal-on-scroll reveal-up reveal-delay-1">
+        <span class="section-tag">Pourquoi Poulina Quality Labs</span>
+        <h2>Une solution orientée terrain et performance qualité</h2>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card reveal-on-scroll reveal-up reveal-delay-1">
+          <span class="feature-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 10L12 4L20 10V19H4V10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9 19V13H15V19" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <h3>Gestion des laboratoires</h3>
+          <p>Centralisez les demandes, les analyses et le suivi des activités pour fluidifier la coordination entre équipes.</p>
+        </article>
+        <article class="feature-card reveal-on-scroll reveal-up reveal-delay-2">
+          <span class="feature-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M8 6H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M8 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M8 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="5" cy="6" r="1.4" fill="currentColor"/>
+              <circle cx="5" cy="12" r="1.4" fill="currentColor"/>
+              <circle cx="5" cy="18" r="1.4" fill="currentColor"/>
+            </svg>
+          </span>
+          <h3>Checklist de contrôle</h3>
+          <p>Structurez les contrôles qualité avec des checklists claires, réutilisables et faciles à suivre au quotidien.</p>
+        </article>
+        <article class="feature-card reveal-on-scroll reveal-up reveal-delay-3">
+          <span class="feature-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 15L10 10L13 13L19 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M19 11V7H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <h3>Décision plus rapide</h3>
+          <p>Visualisez les points sensibles, les conformités et les actions à mener pour mieux prioriser les interventions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section sectors-section reveal-on-scroll reveal-up">
+      <div class="section-heading reveal-on-scroll reveal-up reveal-delay-1">
+        <span class="section-tag">Secteurs concernés</span>
+        <h2>Une même logique qualité pour plusieurs activités</h2>
+      </div>
+
+      <div class="sector-grid">
+        <article class="sector-card reveal-on-scroll reveal-up reveal-delay-1">
+          <img src="/aliment.png" alt="Contrôle qualité du secteur alimentaire">
+          <div>
+            <h3>Alimentaire</h3>
+            <p>Suivi des échantillons, vérification des conformités et traçabilité des contrôles.</p>
+          </div>
+        </article>
+        <article class="sector-card reveal-on-scroll reveal-up reveal-delay-2">
+          <img src="/avicole.png" alt="Contrôle qualité du secteur avicole">
+          <div>
+            <h3>Avicole</h3>
+            <p>Contrôle des procédures, validation des résultats et pilotage des points critiques.</p>
+          </div>
+        </article>
+        <article class="sector-card reveal-on-scroll reveal-up reveal-delay-3">
+          <img src="/agro.jpg" alt="Organisation des laboratoires agro-industriels">
+          <div>
+            <h3>Agro-industrie</h3>
+            <p>Coordination des laboratoires et harmonisation des pratiques qualité à grande échelle.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section workflow-section reveal-on-scroll reveal-up">
+      <div class="section-heading reveal-on-scroll reveal-up reveal-delay-1">
+        <span class="section-tag">Fonctionnement</span>
+        <h2>Un parcours simple pour les équipes qualité</h2>
+      </div>
+
+      <div class="workflow-grid">
+        <article class="workflow-step reveal-on-scroll reveal-up reveal-delay-1">
+          <span>01</span>
+          <h3>Planifier</h3>
+          <p>Créer les contrôles, définir les checklists et structurer les campagnes d'analyse.</p>
+        </article>
+        <article class="workflow-step reveal-on-scroll reveal-up reveal-delay-2">
+          <span>02</span>
+          <h3>Exécuter</h3>
+          <p>Réaliser les inspections et enregistrer les observations directement dans la plateforme.</p>
+        </article>
+        <article class="workflow-step reveal-on-scroll reveal-up reveal-delay-3">
+          <span>03</span>
+          <h3>Suivre</h3>
+          <p>Vérifier les écarts, suivre les validations et conserver un historique exploitable.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="access" class="access-section reveal-on-scroll reveal-up">
+      <div class="access-map-panel reveal-on-scroll reveal-left reveal-delay-1">
+        <div class="access-map-copy">
+          <span class="section-tag">Carte des filiales</span>
+          <h2>Visualisez l’emplacement de chaque filiale</h2>
+          <p>Sélectionnez une filiale pour afficher sa position sur Google Map et retrouver rapidement son secteur de rattachement.</p>
+        </div>
+
+        <div class="access-map-frame">
+          <iframe
+            [src]="selectedBranchMapUrl"
+            title="Carte Google Map des filiales"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div class="access-map-highlight" [attr.data-sector]="selectedBranchMapLocation.sector">
+          <strong>{{ selectedBranchMapLocation.branch }}</strong>
+          <span class="access-map-sector">
+            <span class="sector-dot" aria-hidden="true"></span>
+            {{ selectedBranchMapLocation.sector }}
+          </span>
+          <small>
+            Latitude: {{ selectedBranchMapLocation.latitude }} , Longitude: {{ selectedBranchMapLocation.longitude }}
+          </small>
+        </div>
+
+        <div class="access-map-list">
+          @for (location of branchMapLocations; track location.branch) {
+            <button
+              type="button"
+              class="access-map-item"
+              [attr.data-sector]="location.sector"
+              [class.is-active]="selectedBranchMapLocation.branch === location.branch"
+              (click)="selectBranchMapLocation(location)"
+            >
+              <span class="access-map-item-title">{{ location.branch }}</span>
+              <span class="access-map-item-meta">
+                <span class="sector-dot" aria-hidden="true"></span>
+                {{ location.sector }}
+              </span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <section class="auth-card reveal-on-scroll reveal-right reveal-delay-2">
+        <div class="logo-container">
+          <img src="/logo.png" alt="Logo de l'application" class="logo">
+        </div>
+
+        <h2>{{ mode === 'login' ? 'Connexion' : 'Inscription' }}</h2>
+
+        <form #authForm="ngForm" (ngSubmit)="submit()">
+          @if (mode === 'register') {
+            <div class="form-group">
+              <label for="firstName">Prénom</label>
+              <input id="firstName" name="firstName" [(ngModel)]="firstName" type="text" placeholder="Votre prénom" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Nom</label>
+              <input id="lastName" name="lastName" [(ngModel)]="lastName" type="text" placeholder="Votre nom" required>
+            </div>
+          }
+
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" name="email" [(ngModel)]="email" type="email" placeholder="exemple@domaine.com" required>
+          </div>
+
+          <div class="form-group password-group">
+            <label for="password">Mot de passe</label>
+            <div class="password-field">
+              <input id="password" name="password" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="Votre mot de passe" [attr.minlength]="mode === 'register' ? 8 : null" [attr.pattern]="mode === 'register' ? '(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}' : null" required>
+              <button type="button" class="eye-toggle" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+                {{ showPassword ? 'Masquer' : 'Voir' }}
+              </button>
+            </div>
+            @if (mode === 'register') {
+              <small>8 caractères minimum, une majuscule, un chiffre et un caractère spécial.</small>
+            }
+          </div>
+
+          @if (mode === 'register') {
+            <fieldset class="role-group">
+              <legend>Type d'utilisateur</legend>
+              <div class="radio-options">
+                <label class="role-card">
+                  <input type="radio" name="role" [(ngModel)]="role" value="user" required>
+                  <span>Utilisateur</span>
+                </label>
+                <label class="role-card">
+                  <input type="radio" name="role" [(ngModel)]="role" value="sector_manager">
+                  <span>Responsable secteur</span>
+                </label>
+              </div>
+            </fieldset>
+          }
+
+          <button type="submit" [disabled]="authForm.invalid || isAuthSubmitting" class="btn-submit">
+            {{ isAuthSubmitting ? 'Chargement...' : (mode === 'login' ? 'Se connecter' : 'Créer mon compte') }}
+          </button>
+        </form>
+
+        @if (message) {
+          <p class="message">{{ message }}</p>
+        }
+        @if (error) {
+          <p class="error">{{ error }}</p>
+        }
+
+        <div class="auth-links">
+          <button type="button" class="link-btn" (click)="toggleAuthMode()">
+            {{ mode === 'login' ? 'Créer un compte' : 'J’ai déjà un compte' }}
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <footer class="site-footer reveal-on-scroll reveal-up reveal-delay-2">
+      <p>Poulina Quality Labs, une solution pour digitaliser la qualité et la gestion des laboratoires.</p>
+      <p>
+        Developed by
+        <a href="https://www.linkedin.com/in/zraga-hedir/" target="_blank" rel="noopener noreferrer">Hedir Zraga</a>
+      </p>
+     </footer>
+  }
+
+</main>

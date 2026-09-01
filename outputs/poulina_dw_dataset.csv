@@ -1,0 +1,345 @@
+pk_evaluation,id_eval,audit_group,critere_rang,note_num,ponderation_num,non_conforme,niveau_performance,jour,mois,trimestre,annee,role_utilisateur,utilisateur,filiale,secteur,latitude,longitude
+1,10036,221-1-3-1,1,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+2,10037,221-1-3-1,2,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+3,10038,221-1-3-1,3,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+4,10039,221-1-3-1,4,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+5,10040,221-1-3-1,5,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+6,10041,221-1-3-1,6,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+7,10042,221-1-3-1,7,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+8,10043,221-1-3-1,8,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+9,10044,221-1-3-1,9,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+10,10045,221-1-3-1,10,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+11,10046,221-1-3-1,11,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+12,10047,221-1-3-1,12,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+13,10048,221-1-3-1,13,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+14,10049,221-1-3-1,14,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+15,10051,221-1-3-1,15,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+16,10053,221-1-3-1,16,20.0,4.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+17,10055,221-1-3-1,17,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+18,10057,221-1-3-1,18,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+19,10060,221-1-3-1,19,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+20,10062,221-1-3-1,20,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+21,10064,221-1-3-1,21,20.0,5.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+22,10066,221-1-3-1,22,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+23,10068,221-1-3-1,23,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+24,10069,221-1-3-1,24,20.0,4.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+25,10073,221-1-3-1,25,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+26,10074,221-1-3-1,26,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+27,10078,221-1-3-1,27,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+28,10081,221-1-3-1,28,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+29,10084,221-1-3-1,29,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+30,10087,221-1-3-1,30,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+31,10089,221-1-3-1,31,20.0,1.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+32,10093,221-1-3-1,32,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+33,10096,221-1-3-1,33,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+34,10099,221-1-3-1,34,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+35,10101,221-1-3-1,35,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+36,10105,221-1-3-1,36,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+37,10107,221-1-3-1,37,20.0,3.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+38,10111,221-1-3-1,38,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+39,10113,221-1-3-1,39,20.0,2.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+40,10115,221-1-3-1,40,20.0,1.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+41,10118,221-1-3-1,41,20.0,1.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+42,10125,221-1-3-1,42,20.0,5.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+43,10149,221-1-3-1,43,20.0,5.0,0,eleve,9,8,3,2026,user,hedir zraga,Sokapo,Agro,34.749975,10.774356
+44,10165,222-5-6-1,1,19.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+45,10166,222-5-6-1,2,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+46,10167,222-5-6-1,3,17.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+47,10168,222-5-6-1,4,20.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+48,10169,222-5-6-1,5,20.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+49,10170,222-5-6-1,6,19.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+50,10171,222-5-6-1,7,15.0,2.0,1,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+51,10172,222-5-6-1,8,16.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+52,10173,222-5-6-1,9,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+53,10174,222-5-6-1,10,20.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+54,10175,222-5-6-1,11,19.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+55,10176,222-5-6-1,12,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+56,10177,222-5-6-1,13,17.0,3.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+57,10178,222-5-6-1,14,20.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+58,10179,222-5-6-1,15,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+59,10180,222-5-6-1,16,17.0,4.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+60,10181,222-5-6-1,17,20.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+61,10182,222-5-6-1,18,19.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+62,10183,222-5-6-1,19,16.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+63,10184,222-5-6-1,20,15.0,3.0,1,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+64,10185,222-5-6-1,21,17.0,5.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+65,10186,222-5-6-1,22,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+66,10187,222-5-6-1,23,20.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+67,10188,222-5-6-1,24,20.0,4.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+68,10189,222-5-6-1,25,18.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+69,10190,222-5-6-1,26,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+70,10191,222-5-6-1,27,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+71,10192,222-5-6-1,28,17.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+72,10193,222-5-6-1,29,17.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+73,10194,222-5-6-1,30,17.0,2.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+74,10195,222-5-6-1,31,19.0,1.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+75,10196,222-5-6-1,32,20.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+76,10197,222-5-6-1,33,19.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+77,10198,222-5-6-1,34,19.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+78,10199,222-5-6-1,35,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+79,10200,222-5-6-1,36,19.0,3.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+80,10201,222-5-6-1,37,17.0,3.0,0,satisfait,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+81,10202,222-5-6-1,38,18.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+82,10203,222-5-6-1,39,19.0,2.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+83,10204,222-5-6-1,40,20.0,1.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+84,10205,222-5-6-1,41,20.0,1.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+85,10206,222-5-6-1,42,20.0,5.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+86,10207,222-5-6-1,43,19.0,5.0,0,eleve,10,8,3,2026,user,jesser jesser,SNA tunis,Aliment,36.69836,10.38452
+87,10208,222-6-1-1,1,19.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+88,10209,222-6-1-1,2,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+89,10210,222-6-1-1,3,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+90,10211,222-6-1-1,4,15.0,2.0,1,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+91,10212,222-6-1-1,5,12.0,3.0,1,faible,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+92,10213,222-6-1-1,6,17.0,3.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+93,10214,222-6-1-1,7,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+94,10215,222-6-1-1,8,19.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+95,10216,222-6-1-1,9,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+96,10217,222-6-1-1,10,18.0,3.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+97,10218,222-6-1-1,11,17.0,3.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+98,10219,222-6-1-1,12,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+99,10220,222-6-1-1,13,16.0,3.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+100,10221,222-6-1-1,14,17.0,2.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+101,10222,222-6-1-1,15,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+102,10223,222-6-1-1,16,19.0,4.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+103,10224,222-6-1-1,17,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+104,10225,222-6-1-1,18,15.0,2.0,1,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+105,10226,222-6-1-1,19,16.0,2.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+106,10227,222-6-1-1,20,17.0,3.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+107,10228,222-6-1-1,21,18.0,5.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+108,10229,222-6-1-1,22,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+109,10230,222-6-1-1,23,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+110,10231,222-6-1-1,24,19.0,4.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+111,10232,222-6-1-1,25,20.0,3.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+112,10233,222-6-1-1,26,17.0,2.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+113,10234,222-6-1-1,27,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+114,10235,222-6-1-1,28,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+115,10236,222-6-1-1,29,19.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+116,10237,222-6-1-1,30,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+117,10238,222-6-1-1,31,20.0,1.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+118,10239,222-6-1-1,32,17.0,2.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+119,10240,222-6-1-1,33,20.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+120,10241,222-6-1-1,34,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+121,10242,222-6-1-1,35,12.0,2.0,1,faible,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+122,10243,222-6-1-1,36,19.0,3.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+123,10244,222-6-1-1,37,20.0,3.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+124,10245,222-6-1-1,38,17.0,2.0,0,satisfait,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+125,10246,222-6-1-1,39,18.0,2.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+126,10247,222-6-1-1,40,20.0,1.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+127,10248,222-6-1-1,41,18.0,1.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+128,10249,222-6-1-1,42,20.0,5.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+129,10250,222-6-1-1,43,19.0,5.0,0,eleve,10,8,3,2026,user,ahmed ben ahmed,Gipa,Agro,36.6831,10.4456
+259,10380,225-10-7-1,1,15.0,2.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+260,10381,225-10-7-1,2,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+261,10382,225-10-7-1,3,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+262,10383,225-10-7-1,4,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+263,10384,225-10-7-1,5,16.0,3.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+264,10385,225-10-7-1,6,15.0,3.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+265,10386,225-10-7-1,7,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+266,10387,225-10-7-1,8,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+267,10388,225-10-7-1,9,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+268,10389,225-10-7-1,10,18.0,3.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+269,10390,225-10-7-1,11,17.0,3.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+270,10391,225-10-7-1,12,16.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+271,10392,225-10-7-1,13,15.0,3.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+272,10393,225-10-7-1,14,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+273,10394,225-10-7-1,15,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+274,10395,225-10-7-1,16,15.0,4.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+275,10396,225-10-7-1,17,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+276,10397,225-10-7-1,18,16.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+277,10398,225-10-7-1,19,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+278,10399,225-10-7-1,20,18.0,3.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+279,10400,225-10-7-1,21,16.0,5.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+280,10401,225-10-7-1,22,15.0,2.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+281,10402,225-10-7-1,23,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+282,10403,225-10-7-1,24,18.0,4.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+283,10404,225-10-7-1,25,18.0,3.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+284,10405,225-10-7-1,26,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+285,10406,225-10-7-1,27,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+286,10407,225-10-7-1,28,15.0,2.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+287,10408,225-10-7-1,29,15.0,2.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+288,10409,225-10-7-1,30,16.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+289,10410,225-10-7-1,31,15.0,1.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+290,10411,225-10-7-1,32,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+291,10412,225-10-7-1,33,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+292,10413,225-10-7-1,34,18.0,2.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+293,10414,225-10-7-1,35,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+294,10415,225-10-7-1,36,15.0,3.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+295,10416,225-10-7-1,37,16.0,3.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+296,10417,225-10-7-1,38,15.0,2.0,1,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+297,10418,225-10-7-1,39,17.0,2.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+298,10419,225-10-7-1,40,18.0,1.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+299,10420,225-10-7-1,41,17.0,1.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+300,10421,225-10-7-1,42,18.0,5.0,0,eleve,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+301,10422,225-10-7-1,43,16.0,5.0,0,satisfait,13,8,3,2026,user,oumaima masmoudi,Nutrimix sfax,Aliment,34.749829,10.774346
+302,10423,225-11-8-1,1,10.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+303,10424,225-11-8-1,2,12.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+304,10425,225-11-8-1,3,13.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+305,10426,225-11-8-1,4,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+306,10427,225-11-8-1,5,14.0,3.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+307,10428,225-11-8-1,6,13.0,3.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+308,10429,225-11-8-1,7,15.0,2.0,1,satisfait,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+309,10430,225-11-8-1,8,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+310,10431,225-11-8-1,9,13.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+311,10432,225-11-8-1,10,10.0,3.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+312,10433,225-11-8-1,11,12.0,3.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+313,10434,225-11-8-1,12,13.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+314,10435,225-11-8-1,13,14.0,3.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+315,10436,225-11-8-1,14,12.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+316,10437,225-11-8-1,15,11.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+317,10438,225-11-8-1,16,10.0,4.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+318,10439,225-11-8-1,17,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+319,10440,225-11-8-1,18,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+320,10441,225-11-8-1,19,10.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+321,10442,225-11-8-1,20,11.0,3.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+322,10443,225-11-8-1,21,13.0,5.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+323,10444,225-11-8-1,22,11.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+324,10445,225-11-8-1,23,12.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+325,10446,225-11-8-1,24,12.0,4.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+326,10447,225-11-8-1,25,14.0,3.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+327,10448,225-11-8-1,26,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+328,10449,225-11-8-1,27,15.0,2.0,1,satisfait,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+329,10450,225-11-8-1,28,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+330,10451,225-11-8-1,29,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+331,10452,225-11-8-1,30,12.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+332,10453,225-11-8-1,31,13.0,1.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+333,10454,225-11-8-1,32,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+334,10455,225-11-8-1,33,15.0,2.0,1,satisfait,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+335,10456,225-11-8-1,34,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+336,10457,225-11-8-1,35,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+337,10458,225-11-8-1,36,12.0,3.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+338,10459,225-11-8-1,37,13.0,3.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+339,10460,225-11-8-1,38,12.0,2.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+340,10461,225-11-8-1,39,14.0,2.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+341,10462,225-11-8-1,40,12.0,1.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+342,10463,225-11-8-1,41,13.0,1.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+343,10464,225-11-8-1,42,14.0,5.0,1,moyen,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+344,10465,225-11-8-1,43,12.0,5.0,1,faible,13,8,3,2026,user,mohsen medali,Premix,Aliment,36.580761,10.099698
+173,10294,225-12-5-1,1,10.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+174,10295,225-12-5-1,2,12.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+175,10296,225-12-5-1,3,7.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+176,10297,225-12-5-1,4,5.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+177,10298,225-12-5-1,5,2.0,3.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+178,10299,225-12-5-1,6,13.0,3.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+179,10300,225-12-5-1,7,14.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+180,10301,225-12-5-1,8,12.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+181,10302,225-12-5-1,9,18.0,2.0,0,eleve,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+182,10303,225-12-5-1,10,17.0,3.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+183,10304,225-12-5-1,11,17.0,3.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+184,10305,225-12-5-1,12,16.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+185,10306,225-12-5-1,13,15.0,3.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+186,10307,225-12-5-1,14,17.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+187,10308,225-12-5-1,15,16.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+188,10309,225-12-5-1,16,15.0,4.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+189,10310,225-12-5-1,17,15.0,2.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+190,10311,225-12-5-1,18,13.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+191,10312,225-12-5-1,19,14.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+192,10313,225-12-5-1,20,15.0,3.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+193,10314,225-12-5-1,21,17.0,5.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+194,10315,225-12-5-1,22,17.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+195,10316,225-12-5-1,23,12.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+196,10317,225-12-5-1,24,15.0,4.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+197,10318,225-12-5-1,25,7.0,3.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+198,10319,225-12-5-1,26,5.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+199,10320,225-12-5-1,27,2.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+200,10321,225-12-5-1,28,14.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+201,10322,225-12-5-1,29,15.0,2.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+202,10323,225-12-5-1,30,17.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+203,10324,225-12-5-1,31,16.0,1.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+204,10325,225-12-5-1,32,15.0,2.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+205,10326,225-12-5-1,33,14.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+206,10327,225-12-5-1,34,13.0,2.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+207,10328,225-12-5-1,35,12.0,2.0,1,faible,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+208,10329,225-12-5-1,36,15.0,3.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+209,10330,225-12-5-1,37,14.0,3.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+210,10331,225-12-5-1,38,16.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+211,10332,225-12-5-1,39,17.0,2.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+212,10333,225-12-5-1,40,16.0,1.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+213,10334,225-12-5-1,41,14.0,1.0,1,moyen,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+214,10335,225-12-5-1,42,15.0,5.0,1,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+215,10336,225-12-5-1,43,16.0,5.0,0,satisfait,13,8,3,2026,user,najla sassi,couvoir cedria,Avicole,36.604089,10.491539
+130,10251,225-8-4-1,1,17.0,2.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+131,10252,225-8-4-1,2,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+132,10253,225-8-4-1,3,15.0,2.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+133,10254,225-8-4-1,4,12.0,2.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+134,10255,225-8-4-1,5,17.0,3.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+135,10256,225-8-4-1,6,13.0,3.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+136,10257,225-8-4-1,7,20.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+137,10258,225-8-4-1,8,14.0,2.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+138,10259,225-8-4-1,9,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+139,10260,225-8-4-1,10,10.0,3.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+140,10261,225-8-4-1,11,15.0,3.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+141,10262,225-8-4-1,12,17.0,2.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+142,10263,225-8-4-1,13,15.0,3.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+143,10264,225-8-4-1,14,20.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+144,10265,225-8-4-1,15,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+145,10266,225-8-4-1,16,17.0,4.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+146,10267,225-8-4-1,17,15.0,2.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+147,10268,225-8-4-1,18,12.0,2.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+148,10269,225-8-4-1,19,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+149,10270,225-8-4-1,20,17.0,3.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+150,10271,225-8-4-1,21,15.0,5.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+151,10272,225-8-4-1,22,17.0,2.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+152,10273,225-8-4-1,23,20.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+153,10274,225-8-4-1,24,12.0,4.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+154,10275,225-8-4-1,25,5.0,3.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+155,10276,225-8-4-1,26,14.0,2.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+156,10277,225-8-4-1,27,16.0,2.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+157,10278,225-8-4-1,28,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+158,10279,225-8-4-1,29,7.0,2.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+159,10280,225-8-4-1,30,0.0,2.0,1,faible,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+160,10281,225-8-4-1,31,17.0,1.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+161,10282,225-8-4-1,32,15.0,2.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+162,10283,225-8-4-1,33,14.0,2.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+163,10284,225-8-4-1,34,17.0,2.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+164,10285,225-8-4-1,35,18.0,2.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+165,10286,225-8-4-1,36,18.0,3.0,0,eleve,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+166,10287,225-8-4-1,37,17.0,3.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+167,10288,225-8-4-1,38,15.0,2.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+168,10289,225-8-4-1,39,15.0,2.0,1,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+169,10290,225-8-4-1,40,14.0,1.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+170,10291,225-8-4-1,41,14.0,1.0,1,moyen,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+171,10292,225-8-4-1,42,16.0,5.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+172,10293,225-8-4-1,43,17.0,5.0,0,satisfait,13,8,3,2026,user,iyed ben salem,couvoir ennajeh,Avicole,36.708391,10.380901
+216,10337,225-9-2-1,1,5.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+217,10338,225-9-2-1,2,7.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+218,10339,225-9-2-1,3,9.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+219,10340,225-9-2-1,4,10.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+220,10341,225-9-2-1,5,12.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+221,10342,225-9-2-1,6,8.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+222,10343,225-9-2-1,7,7.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+223,10344,225-9-2-1,8,10.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+224,10345,225-9-2-1,9,14.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+225,10346,225-9-2-1,10,12.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+226,10347,225-9-2-1,11,14.0,3.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+227,10348,225-9-2-1,12,14.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+228,10349,225-9-2-1,13,12.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+229,10350,225-9-2-1,14,13.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+230,10351,225-9-2-1,15,12.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+231,10352,225-9-2-1,16,10.0,4.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+232,10353,225-9-2-1,17,12.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+233,10354,225-9-2-1,18,11.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+234,10355,225-9-2-1,19,10.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+235,10356,225-9-2-1,20,14.0,3.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+236,10357,225-9-2-1,21,13.0,5.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+237,10358,225-9-2-1,22,11.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+238,10359,225-9-2-1,23,12.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+239,10360,225-9-2-1,24,14.0,4.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+240,10361,225-9-2-1,25,13.0,3.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+241,10362,225-9-2-1,26,13.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+242,10363,225-9-2-1,27,12.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+243,10364,225-9-2-1,28,11.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+244,10365,225-9-2-1,29,10.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+245,10366,225-9-2-1,30,13.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+246,10367,225-9-2-1,31,12.0,1.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+247,10368,225-9-2-1,32,12.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+248,10369,225-9-2-1,33,13.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+249,10370,225-9-2-1,34,14.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+250,10371,225-9-2-1,35,7.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+251,10372,225-9-2-1,36,5.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+252,10373,225-9-2-1,37,7.0,3.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+253,10374,225-9-2-1,38,10.0,2.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+254,10375,225-9-2-1,39,14.0,2.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+255,10376,225-9-2-1,40,13.0,1.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+256,10377,225-9-2-1,41,12.0,1.0,1,faible,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+257,10378,225-9-2-1,42,14.0,5.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781
+258,10379,225-9-2-1,43,13.0,5.0,1,moyen,13,8,3,2026,user,ahmed taha,Agromed,Agro,34.955198,10.877781

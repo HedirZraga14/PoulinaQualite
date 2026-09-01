@@ -1,0 +1,7 @@
+{
+  "rows": 344,
+  "audit_groups": 8,
+  "best_classification_model": "gradient_boosting_classifier",
+  "best_regression_model": "gradient_boosting_regressor",
+  "objectif1_threshold": 16
+}

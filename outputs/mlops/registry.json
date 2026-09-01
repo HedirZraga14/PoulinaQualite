@@ -1,0 +1,178 @@
+{
+  "updated_at": "2026-09-01T12:49:17.359390+00:00",
+  "objectives": {
+    "objectif1_non_conformite": {
+      "objective_name": "objectif1_non_conformite",
+      "task_type": "classification",
+      "current_run_id": "objectif1_non_conformite_20260901T124901Z",
+      "promoted_model_name": "svc_rbf",
+      "promoted_metrics": {
+        "modele": "svc_rbf",
+        "accuracy": 0.7454545454545455,
+        "balanced_accuracy": 0.7454545454545455,
+        "precision": 0.8002034197686372,
+        "recall": 0.6818181818181818,
+        "f1": 0.7214605657816563,
+        "roc_auc": 0.7821797520661157
+      },
+      "artifact": {
+        "path": "C:\\Users\\hedir\\OneDrive\\Desktop\\ML_poulina\\models\\objectif1_non_conformite.joblib",
+        "exists": true,
+        "size_bytes": 241254,
+        "updated_at": "2026-09-01T12:49:01.688149+00:00",
+        "sha256": "1101357c59d59387e71121cd5d0b4f4c4e5f73a83884989c160c87c8dbc16932"
+      },
+      "base_rows": 423,
+      "augmented_rows": 440,
+      "training_config": {
+        "threshold_non_conformite": 16.0,
+        "cross_validation": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+        "augmentation": "custom_smote_mixed_tabular",
+        "numeric_features": [
+          "critere_rang",
+          "ponderation_num",
+          "jour",
+          "mois",
+          "trimestre",
+          "annee",
+          "latitude",
+          "longitude"
+        ],
+        "categorical_features": [
+          "axe_evaluation",
+          "criteres",
+          "role_utilisateur",
+          "utilisateur",
+          "filiale",
+          "secteur"
+        ]
+      },
+      "runtime_environment": {
+        "python_version": "3.13.4",
+        "sklearn_version": "1.6.1",
+        "pandas_version": "2.2.3",
+        "numpy_version": "2.2.3",
+        "joblib_version": "1.4.2",
+        "platform": "Windows-11-10.0.26200-SP0"
+      },
+      "latest_top_models": [
+        {
+          "modele": "svc_rbf",
+          "accuracy": 0.7454545454545455,
+          "balanced_accuracy": 0.7454545454545455,
+          "precision": 0.8002034197686372,
+          "recall": 0.6818181818181818,
+          "f1": 0.7214605657816563,
+          "roc_auc": 0.7821797520661157
+        },
+        {
+          "modele": "gradient_boosting",
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "precision": 0.7198159978159978,
+          "recall": 0.6727272727272727,
+          "f1": 0.6868522571299517,
+          "roc_auc": 0.8365185950413224
+        },
+        {
+          "modele": "logistic_regression",
+          "accuracy": 0.6886363636363636,
+          "balanced_accuracy": 0.6886363636363637,
+          "precision": 0.7165699548678273,
+          "recall": 0.6409090909090909,
+          "f1": 0.6695637695637696,
+          "roc_auc": 0.7804235537190084
+        }
+      ],
+      "latest_data_summary": {
+        "class_distribution_before": {
+          "0": 203,
+          "1": 220
+        },
+        "class_distribution_after": {
+          "0": 220,
+          "1": 220
+        }
+      },
+      "updated_at": "2026-09-01T12:49:01.818499+00:00"
+    },
+    "objectif2_prediction_note": {
+      "objective_name": "objectif2_prediction_note",
+      "task_type": "regression",
+      "current_run_id": "objectif2_prediction_note_20260901T124917Z",
+      "promoted_model_name": "random_forest_regressor",
+      "promoted_metrics": {
+        "modele": "random_forest_regressor",
+        "mae": 2.901011319092524,
+        "rmse": 4.478317668097783,
+        "r2": 0.2353611440975661
+      },
+      "artifact": {
+        "path": "C:\\Users\\hedir\\OneDrive\\Desktop\\ML_poulina\\models\\objectif2_note.joblib",
+        "exists": true,
+        "size_bytes": 6309491,
+        "updated_at": "2026-09-01T12:49:17.285752+00:00",
+        "sha256": "1b3c3592d2d2003bdbbaa1364779aded146659a2ff4f195e7addd8a82e823521"
+      },
+      "base_rows": 423,
+      "augmented_rows": 846,
+      "training_config": {
+        "threshold_non_conformite_reference": 16.0,
+        "cross_validation": "KFold(n_splits=5, shuffle=True, random_state=42)",
+        "augmentation": "bootstrap_regression_with_noise",
+        "numeric_features": [
+          "critere_rang",
+          "ponderation_num",
+          "jour",
+          "mois",
+          "trimestre",
+          "annee",
+          "latitude",
+          "longitude"
+        ],
+        "categorical_features": [
+          "axe_evaluation",
+          "criteres",
+          "role_utilisateur",
+          "utilisateur",
+          "filiale",
+          "secteur"
+        ]
+      },
+      "runtime_environment": {
+        "python_version": "3.13.4",
+        "sklearn_version": "1.6.1",
+        "pandas_version": "2.2.3",
+        "numpy_version": "2.2.3",
+        "joblib_version": "1.4.2",
+        "platform": "Windows-11-10.0.26200-SP0"
+      },
+      "latest_top_models": [
+        {
+          "modele": "random_forest_regressor",
+          "mae": 2.901011319092524,
+          "rmse": 4.478317668097783,
+          "r2": 0.2353611440975661
+        },
+        {
+          "modele": "gradient_boosting_regressor",
+          "mae": 3.0367517538940545,
+          "rmse": 4.485779918432447,
+          "r2": 0.2321691196377446
+        },
+        {
+          "modele": "extra_trees_regressor",
+          "mae": 2.809842666213914,
+          "rmse": 4.495773747899252,
+          "r2": 0.22739901142196128
+        }
+      ],
+      "latest_data_summary": {
+        "target_note_min": 0.0,
+        "target_note_max": 20.0,
+        "target_note_mean": 14.25531914893617
+      },
+      "updated_at": "2026-09-01T12:49:17.371297+00:00"
+    }
+  }
+}
