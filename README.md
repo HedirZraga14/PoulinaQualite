@@ -11,10 +11,6 @@ Le projet intègre également :
 - une couche MLOps basée sur un registre de modèles local, des historiques de runs et MLflow ;
 - une stack d'observabilité Docker avec Prometheus et Grafana.
 
-## Sommaire
-
-- [Vue d'ensemble détaillée](docs/PROJECT_DOCUMENTATION.md)
-- [Documentation MLOps](MLOPS.md)
 
 ## Structure principale
 
@@ -65,7 +61,7 @@ python manage.py runserver
 ### Frontend Angular
 
 ```powershell
-cd "c:\Users\hedir\OneDrive\Desktop\ML_poulina\stage\frontend"
+cd "\ML_poulina\stage\frontend"
 npm install
 npm start
 ```
@@ -73,14 +69,14 @@ npm start
 ### Pipeline ML + MLOps
 
 ```powershell
-cd "c:\Users\hedir\OneDrive\Desktop\ML_poulina"
+cd "\ML_poulina"
 python run_mlops_pipeline.py
 ```
 
 ### Monitoring et MLflow
 
 ```powershell
-docker compose -f "c:\Users\hedir\OneDrive\Desktop\ML_poulina\monitoring\docker-compose.monitoring.yml" up -d
+docker compose -f "\ML_poulina\monitoring\docker-compose.monitoring.yml" up -d
 ```
 
 Interfaces disponibles :
@@ -93,5 +89,4 @@ Interfaces disponibles :
 
 ## Documents de référence
 
-- architecture complète : [docs/PROJECT_DOCUMENTATION.md](docs/PROJECT_DOCUMENTATION.md)
-- MLOps, registre, monitoring et MLflow : [MLOPS.md](MLOPS.md)
+
